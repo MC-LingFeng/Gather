@@ -1,7 +1,7 @@
 import type { ThemeConfig } from 'antd';
 import { useState } from 'react';
 
-const defaultThemeColor = '#';
+const defaultThemeColor = '#91caff';
 // const defaultThemeColor = '#91caff';
 const defaultThemeRGBAValue = '24,136,89';
 
