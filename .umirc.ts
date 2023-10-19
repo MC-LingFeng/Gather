@@ -1,42 +1,19 @@
 import { defineConfig } from '@umijs/max';
 import pxToRem from 'postcss-pxtorem';
 const path = require('path');
+import routes from './config/routes';
 
 export default defineConfig({
-  antd: {},
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  antd: {
+    style: 'css',
+  },
+  hash: true,
   access: {},
   model: {},
   initialState: {},
   request: {},
-  layout: {
-    title: 'Study',
-  },
-  routes: [
-    {
-      path: '/',
-      redirect: '/home',
-    },
-    {
-      name: '首页',
-      path: '/home',
-      component: './Home',
-    },
-    {
-      name: '权限演示',
-      path: '/access',
-      component: './Access',
-    },
-    {
-      name: ' CRUD 示例',
-      path: '/table',
-      component: './Table',
-    },
-    {
-      name: '换肤',
-      path: '/skin',
-      component: './Skin',
-    },
-  ],
+  routes,
   extraPostCSSPlugins: [
     pxToRem({
       rootValue: 16,

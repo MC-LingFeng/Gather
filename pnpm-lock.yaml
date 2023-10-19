@@ -19,6 +19,12 @@ dependencies:
   css-vars-ponyfill:
     specifier: ^2.4.8
     version: registry.npmjs.org/css-vars-ponyfill@2.4.8
+  dayjs:
+    specifier: ^1.11.10
+    version: registry.npmjs.org/dayjs@1.11.10
+  echarts:
+    specifier: ^5.4.3
+    version: registry.npmjs.org/echarts@5.4.3
   lodash:
     specifier: ^4.17.21
     version: registry.npmjs.org/lodash@4.17.21
@@ -7062,6 +7068,15 @@ packages:
     version: 0.2.0
     dev: true
 
+  registry.npmjs.org/echarts@5.4.3:
+    resolution: {integrity: sha512-mYKxLxhzy6zyTi/FaEbJMOZU1ULGEQHaeIeuMR5L+JnJTpz+YR03mnnpBhbR4+UYJAgiXgpyTVLffPAjOTLkZA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/echarts/-/echarts-5.4.3.tgz}
+    name: echarts
+    version: 5.4.3
+    dependencies:
+      tslib: registry.npmjs.org/tslib@2.3.0
+      zrender: registry.npmjs.org/zrender@5.4.4
+    dev: false
+
   registry.npmjs.org/electron-to-chromium@1.4.557:
     resolution: {integrity: sha512-6x0zsxyMXpnMJnHrondrD3SuAeKcwij9S+83j2qHAQPXbGTDDfgImzzwgGlzrIcXbHQ42tkG4qA6U860cImNhw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.557.tgz}
     name: electron-to-chromium
@@ -14065,6 +14080,12 @@ packages:
     version: 1.14.1
     dev: false
 
+  registry.npmjs.org/tslib@2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz}
+    name: tslib
+    version: 2.3.0
+    dev: false
+
   registry.npmjs.org/tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-2.6.2.tgz}
     name: tslib
@@ -14725,4 +14746,12 @@ packages:
     name: yocto-queue
     version: 0.1.0
     engines: {node: '>=10'}
+    dev: false
+
+  registry.npmjs.org/zrender@5.4.4:
+    resolution: {integrity: sha512-0VxCNJ7AGOMCWeHVyTrGzUgrK4asT4ml9PEkeGirAkKNYXYzoPJCLvmyfdoOXcjTHPs10OZVMfD1Rwg16AZyYw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/zrender/-/zrender-5.4.4.tgz}
+    name: zrender
+    version: 5.4.4
+    dependencies:
+      tslib: registry.npmjs.org/tslib@2.3.0
     dev: false
