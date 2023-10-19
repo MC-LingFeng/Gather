@@ -1,12 +1,6 @@
-/*
- * @Author: lv 1294432739@qq.com
- * @Date: 2023-10-18 21:17:02
- * @LastEditors: lv 1294432739@qq.com
- * @LastEditTime: 2023-10-18 21:33:37
- * @FilePath: \Gather\.umirc.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import { defineConfig } from '@umijs/max';
+import pxToRem from 'postcss-pxtorem';
+const path = require('path');
 
 export default defineConfig({
   antd: {},
@@ -43,5 +37,21 @@ export default defineConfig({
       component: './Skin',
     },
   ],
+  extraPostCSSPlugins: [
+    pxToRem({
+      rootValue: 16,
+      minPixelValue: 2,
+      propList: ['*'],
+    }),
+  ],
+  chainWebpack: (config) => {
+    config.module
+      .rule('diy-loader')
+      .test(/\.(tsx|jsx)$/)
+      .exclude.add([path.resolve('./src/.umi'), path.resolve('node_modules')])
+      .end()
+      .use('./loader/jsx-px2rem')
+      .loader(path.join(__dirname, './loader/jsx-px2rem'));
+  },
   npmClient: 'pnpm',
 });

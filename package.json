@@ -15,7 +15,10 @@
     "@ant-design/pro-components": "^2.6.30",
     "@umijs/max": "^4.0.86",
     "antd": "^5.10.1",
-    "css-vars-ponyfill": "^2.4.8"
+    "classnames": "^2.3.2",
+    "css-vars-ponyfill": "^2.4.8",
+    "lodash": "^4.17.21",
+    "postcss-pxtorem": "^6.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.29",
