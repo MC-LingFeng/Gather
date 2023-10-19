@@ -14,6 +14,7 @@ export default defineConfig({
   initialState: {},
   request: {},
   routes,
+  alias: {"@": '/src'},
   extraPostCSSPlugins: [
     pxToRem({
       rootValue: 16,
