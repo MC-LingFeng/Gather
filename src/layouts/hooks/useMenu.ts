@@ -30,7 +30,7 @@ const useMenu = (mode: MenuProps['mode']): MenuProps => {
     onOpenChange: handleOpenMenu,
     selectedKeys: [history?.location.pathname || ''],
     style: {
-      height: '100%',
+      // height: '100%',
       borderRight: 0,
     },
     onClick: (e) => {

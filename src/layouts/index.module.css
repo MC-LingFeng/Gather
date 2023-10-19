@@ -2,3 +2,7 @@
   /* height: 100%; */
   width: 60px;
 }
+
+.body-style {
+  minheight: calc(100vh - var(--header-height) - 15px);
+}

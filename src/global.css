@@ -1,5 +1,9 @@
+html {
+  background: #eee;
+}
 
 :root {
+  --header-height: 60px;
   --primary: #91caff;
   --warning: #fffb8f;
   --info: white;
