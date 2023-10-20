@@ -19,7 +19,7 @@ const App = () => {
   
   return (
     <ConfigProvider theme={antdThemeConfig} locale={zhCN}>
-    <div style={{ width: '100%' }}>
+    <div >
       <Header />
       <Row gutter={16} >
           <Col span={6} style={{ display: 'flex', justifyContent: 'flex-end',  }}>
@@ -27,7 +27,7 @@ const App = () => {
               <Menu {...menuProps}/>
             </div>
           </Col>
-          <Col span={12}>
+          <Col span={12} className={styleCtx('body-container')}>
             <Outlet />
           </Col>
           <Col span={6}></Col>

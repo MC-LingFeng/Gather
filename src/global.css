@@ -1,14 +1,21 @@
-html {
-  background: #eee;
-}
-
 :root {
   --header-height: 60px;
   --primary: #91caff;
+  --background-img: url('~@/assets/img/White-BG.jpg');
+
   --warning: #fffb8f;
   --info: white;
   --danger: #ff4d4f;
+
   --text-color: #000000;
   --border-color: #8c8c8c;
   --icon-color: #4096ff;
+
+  --border-radius: 9px;
+}
+
+html {
+  background-image: var(--background-img);
+  background-color: transparent;
+  background-size: 100% 100%;
 }
