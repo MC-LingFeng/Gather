@@ -2,6 +2,9 @@
   --header-height: 60px;
   --primary: #91caff;
   --background-img: url('~@/assets/img/White-BG.jpg');
+  --module-card-background: rgba(255, 255, 255, 0.8);
+  --icon-color: #91caff;
+  --primary-light: #d6e4ff;
 
   --warning: #fffb8f;
   --info: white;
@@ -15,6 +18,7 @@
 }
 
 html {
+  color: var(--text-color);
   background-image: var(--background-img);
   background-color: transparent;
   background-size: 100% 100%;

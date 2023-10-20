@@ -1,6 +1,6 @@
 import 'dayjs/locale/zh-cn';
 import { Outlet, useModel } from '@umijs/max';
-import { Col, ConfigProvider, Menu, Row } from 'antd';
+import { Col, ConfigProvider, Menu, Row, theme } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
 import React from 'react';
@@ -16,9 +16,11 @@ const App = () => {
   const styleCtx = useCssModule(styles)
 
   const menuProps = useMenu('inline');
+  const {name} = useModel('global');
+  console.log(name);
   
   return (
-    <ConfigProvider theme={antdThemeConfig} locale={zhCN}>
+    <ConfigProvider theme={name === 'dark'? {algorithm: theme.darkAlgorithm,...antdThemeConfig }: {algorithm: theme.defaultAlgorithm, ...antdThemeConfig}} locale={zhCN} >
     <div >
       <Header />
       <Row gutter={16} >

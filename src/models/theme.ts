@@ -1,42 +1,62 @@
 import type { ThemeConfig } from 'antd';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-const defaultThemeColor = '#91caff';
-// const defaultThemeColor = '#91caff';
-const defaultThemeRGBAValue = '24,136,89';
 
 const useAntdTheme = (): [
   ThemeConfig,
-  React.Dispatch<React.SetStateAction<ThemeConfig>>,
+  ({ primaryVar, colorVar }: {
+    primaryVar?: string | undefined;
+    colorVar?: string | undefined;
+}) => void
 ] => {
-  const [theme, setTheme] = useState<ThemeConfig>({
-    token: {
-      colorPrimary: defaultThemeColor,
-      colorSuccess: defaultThemeColor,
-      colorInfo: defaultThemeColor,
-      wireframe: true,
-    },
-    components: {
-      Layout: {
-        colorBgHeader: '#fff',
-        colorBgTrigger: defaultThemeColor,
-        controlHeight: 24,
-      },
-      Tag: {
-        colorText: '#aaa',
-      },
-      Segmented: {
-        itemHoverColor: defaultThemeColor,
-      },
-      Table: {
-        colorFillAlter: `RGBA(${defaultThemeRGBAValue},0.1)`,
-      },
-      FloatButton: {
-        colorText: defaultThemeColor,
-      },
-    },
-  });
+  const [primary, setPrimary] = useState('#91caff')
+  const [primaryLight, setPrimaryLigtht] = useState('#91caff')
+  const [color, setColor] = useState('#000')
 
+  const theme: ThemeConfig = useMemo(() => {
+    return {
+      token: {
+        colorPrimary: primary,
+        colorSuccess: primary,
+        colorInfo: primary,
+        wireframe: true,
+        colorText: color,
+      },
+      components: {
+        Layout: {
+          colorBgHeader: '#fff',
+          colorBgTrigger: primary,
+          controlHeight: 24,
+        },
+        Tag: {
+          colorText: '#aaa',
+        },
+        Segmented: {
+          itemHoverColor: primary,
+        },
+        Table: {
+          headerBg: primary,
+          headerColor: color,
+          rowHoverBg: primaryLight,
+        },
+        FloatButton: {
+          colorText: primary,
+        },
+      },
+    }
+  }, [primary, color, primaryLight])
+
+  const setTheme = ({ primaryVar, colorVar, primaryLightVar}: { primaryVar?: string, colorVar?: string, primaryLightVar?: string}) => {
+    if (primaryVar) {
+      setPrimary(primaryVar)
+    }
+    if (colorVar) {
+      setColor(colorVar)
+    }
+    if (primaryLightVar){
+      setPrimaryLigtht(primaryLightVar)
+    }
+  }
   return [theme, setTheme];
 };
 

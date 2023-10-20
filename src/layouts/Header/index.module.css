@@ -1,10 +1,9 @@
 .header-container {
   --header-font: 19px;
 
-  width: 100%;
   height: var(--header-height);
   margin-bottom: 15px;
-  background-color: var(--primary);
+  background: var(--primary);
 }
 
 .header-left {
@@ -18,4 +17,8 @@
   display: flex;
   align-items: center;
   font-size: var(--header-font);
+}
+
+.border-top {
+  border: 2px solid var(primary-light);
 }

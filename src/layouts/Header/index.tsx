@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import styles from './index.module.css';
 import { useCssModule } from '@/hooks';
-import { Col, Drawer, Menu, Row } from 'antd';
+import { Col, Drawer, Row } from 'antd';
 import { changeTheme, theme } from '../helper';
+import { useModel } from '@umijs/max';
 
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
   const [open, setOpen] = useState<boolean>(false)
+  const [,setTheme] = useModel('theme')
+  const {setName} = useModel('global')
 
   return (
     <div className={styleCtx('header-container')}>
@@ -39,7 +42,20 @@ const Header = () => {
                     return <div key={`${item}-theme-button`} style={{ display: 'flex', alignItems: 'center', }} onClick={(e) => {
                       e.stopPropagation();
                       changeTheme(theme[item])
+                      setTheme({
+                        primaryVar: theme[item]['--primary'],
+                        colorVar: theme[item]['--text-color'],
+                        primaryLightVar: theme[item]['--primary-light'],
+                      })
                       setOpen(false)
+                        setName(() => {
+                          if (item === 'black'){
+                            return 'dark'
+                          } else {
+                            return 'light'
+                          }
+                        
+                        })
                     }}>
                       <div style={{ width: '30px', height: '30px', background: item, border: '1px solid #8c8c8c', marginRight: 10, marginBottom: 10 }}></div>
                       <div>{item} 主题</div>
