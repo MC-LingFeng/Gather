@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import styles from './index.module.css';
 import { useCssModule } from '@/hooks';
 import { Col, Drawer, Row } from 'antd';
-import { changeTheme, theme } from '../helper';
+import { theme } from '../helper';
 import { useModel } from '@umijs/max';
+import { antdColorKey } from '@/runtime/getInitialState';
 
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
   const [open, setOpen] = useState<boolean>(false)
-  const [,setTheme] = useModel('theme')
+  const {setInitialState} = useModel('@@initialState')
   const {setName} = useModel('global')
 
   return (
@@ -41,11 +42,19 @@ const Header = () => {
                   {Object.keys(theme).map((item) => {
                     return <div key={`${item}-theme-button`} style={{ display: 'flex', alignItems: 'center', }} onClick={(e) => {
                       e.stopPropagation();
-                      changeTheme(theme[item])
-                      setTheme({
-                        primaryVar: theme[item]['--primary'],
-                        colorVar: theme[item]['--text-color'],
-                        primaryLightVar: theme[item]['--primary-light'],
+                      document.documentElement.setAttribute(`data-theme`, item)
+                     
+                      const computedStyle = document.documentElement.computedStyleMap()
+                      const defaultAntdColor: Record<string, string> ={}
+                      computedStyle.forEach((value, key) => {
+                        if (antdColorKey.includes(key)){
+                          defaultAntdColor[key] = value[0].toString()
+                        }
+                      })
+                      setInitialState((res) => {
+                        return {...res,
+                          defaultAntdColor,
+                        } as InitialState
                       })
                       setOpen(false)
                         setName(() => {
@@ -56,6 +65,7 @@ const Header = () => {
                           }
                         
                         })
+                        window.localStorage.setItem('theme', item)
                     }}>
                       <div style={{ width: '30px', height: '30px', background: item, border: '1px solid #8c8c8c', marginRight: 10, marginBottom: 10 }}></div>
                       <div>{item} 主题</div>

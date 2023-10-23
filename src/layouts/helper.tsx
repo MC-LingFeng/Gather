@@ -78,5 +78,36 @@ function changeTheme(themeObj: {[key: string]: string}) {
     rootElement: document.documentElement,
   });
 }
-
-export { transformRoutesToMenu, theme, changeTheme };
+const getAntdStyle = (defaultAntdColor: Record<string, string>) => {
+  return  {
+    token: {
+      colorPrimary: defaultAntdColor?.['--primary'],
+      colorSuccess: defaultAntdColor?.['--primary'],
+      colorInfo: defaultAntdColor?.['--primary'],
+      wireframe: true,
+      colorText: defaultAntdColor?.['--text-color'],
+    },
+    components: {
+      Layout: {
+        colorBgHeader: '#fff',
+        colorBgTrigger: defaultAntdColor?.['--primary'],
+        controlHeight: 24,
+      },
+      Tag: {
+        colorText: '#aaa',
+      },
+      Segmented: {
+        itemHoverColor: defaultAntdColor?.['--primary'],
+      },
+      Table: {
+        headerBg: defaultAntdColor?.['--primary'],
+        headerColor: defaultAntdColor?.['--text-color'],
+        rowHoverBg: defaultAntdColor?.['--primary-light'],
+      },
+      FloatButton: {
+        colorText: defaultAntdColor?.['--primary'],
+      },
+    },
+  }
+}
+export { transformRoutesToMenu, theme, changeTheme , getAntdStyle};

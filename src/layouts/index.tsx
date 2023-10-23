@@ -8,19 +8,21 @@ import Header from './Header';
 import useMenu from './hooks/useMenu';
 import styles from './index.module.css';
 import { useCssModule } from '@/hooks';
+import { getAntdStyle } from './helper'
 
 
 const App = () => {
   dayjs.locale('zh-cn');
-  const [antdThemeConfig] = useModel('theme');
+  const { initialState } = useModel('@@initialState');
   const styleCtx = useCssModule(styles)
 
   const menuProps = useMenu('inline');
   const {name} = useModel('global');
-  console.log(name);
   
   return (
-    <ConfigProvider theme={name === 'dark'? {algorithm: theme.darkAlgorithm,...antdThemeConfig }: {algorithm: theme.defaultAlgorithm, ...antdThemeConfig}} locale={zhCN} >
+    <ConfigProvider theme={name === 'dark'?
+     {algorithm: theme.darkAlgorithm,...getAntdStyle(initialState?.defaultAntdColor as Record<string, string>) }:
+      {algorithm: theme.defaultAlgorithm, ...getAntdStyle(initialState?.defaultAntdColor as Record<string, string>)}} locale={zhCN} >
     <div >
       <Header />
       <Row gutter={16} >
