@@ -15,7 +15,6 @@ async function getInitialState(): Promise<InitialState> {
     document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme') || 'light')
     Object.keys(theme).forEach(key => {
       const url = theme[key]['--background-img'].split('(')[1].split(')')[0]
-      console.log(url);
       const img = document.createElement('img')
       img.setAttribute('key', url)
       img.setAttribute('src', url)

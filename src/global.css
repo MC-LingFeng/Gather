@@ -3,6 +3,8 @@ html {
   background-image: var(--background-img);
   background-color: transparent;
   background-size: 100% 100%;
+  margin: 0;
+  padding: 0;
 }
 html[data-theme='white'] {
   --primary: #91caff;
@@ -67,4 +69,8 @@ html[data-theme='green'] {
   --icon-color: #4096ff;
 
   --border-radius: 9px;
+}
+
+.ant-row {
+  margin: 0px !important;
 }

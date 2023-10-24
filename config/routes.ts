@@ -7,6 +7,17 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     redirect: '/home',
   },
   {
+    name: 'hooks',
+    path: '/hooks',
+    routes: [
+      {
+        name: '自定义hooks',
+        path: '/hooks/customize',
+        component: '@/pages/StudyHooks/Customize',
+      }
+    ],
+  },
+  {
     name: '首页',
     icon: 'Icon-1',
     path: '/home',

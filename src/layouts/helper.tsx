@@ -1,4 +1,4 @@
-import { Tooltip, type MenuProps } from 'antd';
+import { Tooltip, type MenuProps, ThemeConfig } from 'antd';
 import cssVars from 'css-vars-ponyfill';
 
 
@@ -78,7 +78,7 @@ function changeTheme(themeObj: {[key: string]: string}) {
     rootElement: document.documentElement,
   });
 }
-const getAntdStyle = (defaultAntdColor: Record<string, string>) => {
+const getAntdStyle: (defaultAntdColor: Record<string, string>) => ThemeConfig  = (defaultAntdColor: Record<string, string>) => {
   return  {
     token: {
       colorPrimary: defaultAntdColor?.['--primary'],

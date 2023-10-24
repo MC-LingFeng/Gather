@@ -1,4 +1,6 @@
 declare module 'postcss-pxtorem';
+declare module  'react-syntax-highlighter/dist/esm/styles/prism';
+declare module  'react-syntax-highlighter';
 
 interface InitialState extends User.Info {
   name: string;

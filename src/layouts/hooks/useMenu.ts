@@ -30,8 +30,8 @@ const useMenu = (mode: MenuProps['mode']): MenuProps => {
     onOpenChange: handleOpenMenu,
     selectedKeys: [history?.location.pathname || ''],
     style: {
-      // height: '100%',
       borderRight: 0,
+      borderRadius: 'var(--border-radius)',
     },
     onClick: (e) => {
       history.push(e.key);

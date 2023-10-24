@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { theme } from '../helper';
 import styles from './index.module.css';
 import { useChangeTheme } from '../hooks';
+import { useModel } from '@umijs/max';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
   const [open, setOpen] = useState<boolean>(false);
   const changeTheme = useChangeTheme();
+  const { setThemeName } = useModel('theme')
 
   return (
     <div className={styleCtx('header-container')}>
@@ -52,6 +54,7 @@ const Header = () => {
                       key={`${item}-theme-button`}
                       style={{ display: 'flex', alignItems: 'center' }}
                       onClick={(e) => {
+                        setThemeName(item)
                         changeTheme(item, e)
                         setOpen(false)
                       }}

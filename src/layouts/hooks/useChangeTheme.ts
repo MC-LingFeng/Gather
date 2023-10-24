@@ -8,6 +8,7 @@ const useChangeTheme = () => {
   const { setName} = useModel('global')
 
   const changeTheme: (key: string, e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>) =>void = (item, e) => {
+    window.localStorage.setItem('theme', item);
     e.stopPropagation();
     document.documentElement.setAttribute(
       `data-theme`,
@@ -32,7 +33,6 @@ const useChangeTheme = () => {
         return 'light';
       }
     });
-    window.localStorage.setItem('theme', item);
   }
   return changeTheme
 }

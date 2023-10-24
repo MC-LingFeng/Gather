@@ -7,7 +7,7 @@ import React from 'react';
 import Header from './Header';
 import useMenu from './hooks/useMenu';
 import styles from './index.module.css';
-import { useCssModule } from '@/hooks';
+import { useCssModule, useListenScroll } from '@/hooks';
 import { getAntdStyle } from './helper'
 
 
@@ -18,16 +18,19 @@ const App = () => {
 
   const menuProps = useMenu('inline');
   const {name} = useModel('global');
+  useListenScroll(styleCtx('left-menu-container'), styleCtx('menu-style'));
   
   return (
-    <ConfigProvider theme={name === 'dark'?
+    <ConfigProvider 
+    theme={name === 'dark'?
      {algorithm: theme.darkAlgorithm,...getAntdStyle(initialState?.defaultAntdColor as Record<string, string>) }:
-      {algorithm: theme.defaultAlgorithm, ...getAntdStyle(initialState?.defaultAntdColor as Record<string, string>)}} locale={zhCN} >
-    <div >
+      {algorithm: theme.defaultAlgorithm, ...getAntdStyle(initialState?.defaultAntdColor as Record<string, string>)}} locale={zhCN} 
+      >
+    <div style={{ width: '100%'}}>
       <Header />
-      <Row gutter={16} >
+      <Row gutter={16} style={{ margin: 0}}>
           <Col span={6} style={{ display: 'flex', justifyContent: 'flex-end',  }}>
-            <div style={{ width: '40%' }}>
+            <div className={styleCtx('left-menu-container')}>
               <Menu {...menuProps}/>
             </div>
           </Col>
