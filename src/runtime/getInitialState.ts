@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { history } from '@umijs/max';
+import { history, request } from '@umijs/max';
 
 import localRoutes from '../../config/routes';
 import { getLocalRoutes } from './helper';
@@ -8,6 +8,10 @@ import { changeTheme, theme } from '@/layouts/helper';
 export const antdColorKey = ['--primary', '--text-color', '--primary-light']
 
 async function getInitialState(): Promise<InitialState> {
+  const res = await request('/gather/theme', { method: 'GET' })
+
+  console.log(res);
+  
   const defaultAntdColor: Record<string, string> = {
    
   }

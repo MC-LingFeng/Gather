@@ -2,6 +2,12 @@ import { defineConfig } from '@umijs/max';
 import pxToRem from 'postcss-pxtorem';
 const path = require('path');
 import routes from './config/routes';
+import proxyMap from './config/proxy.js';
+
+const { MODE, PROXY, MENU_SOURCE } = process.env;
+
+const proxyList = proxyMap as any;
+const proxy = proxyList[PROXY!]?.proxy || {};
 
 export default defineConfig({
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
@@ -14,6 +20,7 @@ export default defineConfig({
   initialState: {},
   request: {},
   routes,
+  proxy,
   alias: {"@": '/src'},
   extraPostCSSPlugins: [
     pxToRem({
