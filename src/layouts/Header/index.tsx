@@ -5,6 +5,7 @@ import { theme } from '../helper';
 import styles from './index.module.css';
 import { useChangeTheme } from '../hooks';
 import { useModel } from '@umijs/max';
+import themeService from '@/services/theme';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
@@ -56,6 +57,10 @@ const Header = () => {
                       onClick={(e) => {
                         setThemeName(item)
                         changeTheme(item, e)
+                        themeService.setTheme({
+                          value: item,
+                          id: 1
+                        })
                         setOpen(false)
                       }}
                     >

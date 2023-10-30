@@ -4,19 +4,60 @@ import { history, request } from '@umijs/max';
 import localRoutes from '../../config/routes';
 import { getLocalRoutes } from './helper';
 import { changeTheme, theme } from '@/layouts/helper';
+import routeRequest from '@/services/routes'
+import themeRequest from '@/services/theme'
 
 export const antdColorKey = ['--primary', '--text-color', '--primary-light']
 
 async function getInitialState(): Promise<InitialState> {
-  const res = await request('/gather/theme', { method: 'GET' })
+  const routes = getLocalRoutes(localRoutes);
 
-  console.log(res);
+  let routeData = []
+  let defaultTheme = window.localStorage.getItem('theme') || 'white'
+
+  try {
+  
+  const [routeRes, themeRes] = await Promise.all([
+    routeRequest.getPath(),
+    themeRequest.getTheme()
+  ])
+  if (routeRes.code === 200){
+    routeData = routeRes.data.map((item) => {
+      const nowNode = routes.find(child => child.path === item.path) as any ?? {};
+      const getChildren = item.children.map((child) => {
+        const getNodeChild = nowNode.routes.find((node: any) => node.path === child.path) ?? {}
+        return {
+          ...getNodeChild,
+          ...child,
+        }
+      })
+      return {
+        ...nowNode,
+        ...item,
+        routes: getChildren.length === 0? undefined: getChildren
+      }
+    })
+  } else {
+    routeData = routes
+  }
+  if (themeRes.code === 200){
+    defaultTheme = themeRes.data.value
+    window.localStorage.setItem('theme',themeRes.data.value)
+    window.localStorage.setItem('theme_name',themeRes.data.name)
+    window.localStorage.setItem('theme_id',`${themeRes.data.id}`)
+  }
+} catch (err) {
+  routeData = routes
+}
+  
+  // type
+
+  // console.log(res);
   
   const defaultAntdColor: Record<string, string> = {
    
   }
-  const routes = getLocalRoutes(localRoutes);
-    document.documentElement.setAttribute('data-theme', window.localStorage.getItem('theme') || 'light')
+    document.documentElement.setAttribute('data-theme', defaultTheme)
     Object.keys(theme).forEach(key => {
       const url = theme[key]['--background-img'].split('(')[1].split(')')[0]
       const img = document.createElement('img')
@@ -32,14 +73,12 @@ async function getInitialState(): Promise<InitialState> {
       defaultAntdColor[key] = value[0].toString()
     }
   })
-    // console.log(document.documentElement.getAttribute(`html[data-theme="${window.localStorage.getItem('theme') || 'light'}"]`));
-    
-    
     // window.get
     return {
       name: 'Gutter',
-      routes,
+      routes: routeData,
       defaultAntdColor,
+      defaultTheme,
     }
 }
 

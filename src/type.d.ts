@@ -6,6 +6,7 @@ interface InitialState extends User.Info {
   name: string;
   routes: IRoute[];
   defaultAntdColor: Record<string, string>
+  defaultTheme: string;
 }
 
 type IRoute = {
@@ -15,3 +16,9 @@ type IRoute = {
   icon?: string | undefined;
   routes?: IRoute[];
 };
+
+type APIBody<T> = {
+  data: T,
+  code: number;
+  message: string;
+}
