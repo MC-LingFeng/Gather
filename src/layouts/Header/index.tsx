@@ -6,10 +6,13 @@ import styles from './index.module.css';
 import { useChangeTheme } from '../hooks';
 import { useModel } from '@umijs/max';
 import themeService from '@/services/theme';
+import { Theme } from './svg';
+import { Login } from './components';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
   const [open, setOpen] = useState<boolean>(false);
+  const [login, setLogin] = useState<boolean>(false);
   const changeTheme = useChangeTheme();
   const { setThemeName } = useModel('theme')
 
@@ -35,11 +38,15 @@ const Header = () => {
               alignItems: 'center',
             }}
           >
+            <div style={{ marginRight: 15 }} onClick={() => setLogin(true)} className={styleCtx('hands-true')}>
+              <span>登录</span>丨
+              <span>注册</span>
+            </div>
             <div
               style={{ width: '60px', cursor: 'pointer' }}
               onClick={() => setOpen(true)}
             >
-              主题
+              <Theme />
               <Drawer
                 title="主题选择"
                 placement="right"
@@ -83,6 +90,12 @@ const Header = () => {
           </div>
         </Col>
       </Row>
+      <Login 
+        modalProps={{
+          open: login,
+          onCancel: () => setLogin(false),
+        }}
+      />
     </div>
   );
 };

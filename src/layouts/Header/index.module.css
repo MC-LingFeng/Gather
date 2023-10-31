@@ -1,5 +1,5 @@
 .header-container {
-  --header-font: 19px;
+  --header-font: 15px;
 
   height: var(--header-height);
   margin-bottom: 15px;
@@ -21,4 +21,8 @@
 
 .border-top {
   border: 2px solid var(primary-light);
+}
+
+.hands-true {
+  cursor: pointer;
 }
