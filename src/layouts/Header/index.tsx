@@ -6,11 +6,12 @@ import styles from './index.module.css';
 import { useChangeTheme } from '../hooks';
 import { useModel } from '@umijs/max';
 import themeService from '@/services/theme';
-import { Theme } from './svg';
+import { Theme, User } from './svg';
 import { Login } from './components';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
+  const username = window.sessionStorage.getItem('username');
   const [open, setOpen] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const changeTheme = useChangeTheme();
@@ -38,10 +39,18 @@ const Header = () => {
               alignItems: 'center',
             }}
           >
-            <div style={{ marginRight: 15 }} onClick={() => setLogin(true)} className={styleCtx('hands-true')}>
-              <span>登录</span>丨
-              <span>注册</span>
-            </div>
+            {!username &&
+              <div style={{ marginRight: 15 }} onClick={() => setLogin(true)} className={styleCtx('hands-true')}>
+                <span>登录</span>丨
+                <span>注册</span>
+              </div>
+            }
+            {
+              !!username && (
+                  <div style={{ marginRight: 15 }}><User /></div>
+                )
+            }
+            
             <div
               style={{ width: '60px', cursor: 'pointer' }}
               onClick={() => setOpen(true)}

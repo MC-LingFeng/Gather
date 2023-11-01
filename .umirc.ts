@@ -18,7 +18,7 @@ export default defineConfig({
   access: {},
   model: {},
   initialState: {},
-  request: {},
+  request: { dataField: '' },
   routes,
   proxy,
   alias: {"@": '/src'},

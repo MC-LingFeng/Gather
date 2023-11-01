@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, ModalProps } from 'antd'
+import { Button, Form, Input, Modal, ModalProps,  } from 'antd'
 import React from 'react'
 import service from '@/services/login'
 import { useRequest } from '@umijs/max';
@@ -14,8 +14,39 @@ interface FieldType {
 const Login: React.FC<LoginProps> = ({ modalProps }) => {
   const [form] = Form.useForm();
 
-  const login = useRequest(service.login, { manual: true });
-  const register = useRequest(service.register, { manual: true });
+  const login = useRequest(service.login, { manual: true, onSuccess(res) {
+    
+    if (res.code === 200 && res.data?.username) {
+      window.sessionStorage.setItem('username', res.data.username);
+      window.location.reload();
+    }
+    if (res.code === 101){
+      form.setFields([
+        { errors: [res.message], name: 'password', value: login.params[0].password }
+      ])
+    }
+    if (res.code === 102){
+      form.setFields([
+        { errors: [res.message], name: 'username', value: login.params[0].username },
+        { errors: [res.message], name: 'password', value: login.params[0].password }
+      ])
+    }
+    
+  }, });
+  const register = useRequest(service.register, { manual: true,  onSuccess(res) {
+
+    if (res.code === 200 && res.data?.username) {
+      window.sessionStorage.setItem('username', res.data.username);
+      window.location.reload();
+    }
+
+    if (res.code === 201) {
+      /** 名字重复 */
+      form.setFields([
+        { errors: [res.message], name: 'username', value: register.params[0].username }
+      ])
+    }
+  } });
   
   const onFinish = (key: 'login' | 'register') => {
     const values = form.getFieldsValue();
@@ -23,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ modalProps }) => {
     if (!values.username || !values.password) {
       return;
     }
-    console.log(values, key,);
+
     if (key === 'login') {
       login.run(values);
     } else {
@@ -53,6 +84,7 @@ const Login: React.FC<LoginProps> = ({ modalProps }) => {
         <Form.Item<FieldType>
           label="用户名"
           name="username"
+          
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
@@ -63,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ modalProps }) => {
           name="password"
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
-          <Input.Password />
+          <Input.Password  />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span:12 }}>
