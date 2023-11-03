@@ -7,7 +7,7 @@ import { useChangeTheme } from '../hooks';
 import { useModel } from '@umijs/max';
 import themeService from '@/services/theme';
 import { Theme, User } from './svg';
-import { Login } from './components';
+import { Login, UserOperate } from './components';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
@@ -47,7 +47,12 @@ const Header = () => {
             }
             {
               !!username && (
-                  <div style={{ marginRight: 15 }}><User /></div>
+                  <div style={{ marginRight: 15 }}>
+                    <User />
+                    <div className={styleCtx('user-info-container')}>
+                      <UserOperate />
+                    </div>
+                  </div>
                 )
             }
             

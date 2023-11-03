@@ -26,3 +26,7 @@
 .hands-true {
   cursor: pointer;
 }
+
+.user-info-container {
+  position: relative;
+}

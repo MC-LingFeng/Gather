@@ -1,0 +1,8 @@
+.user-info {
+  position: absolute;
+  width: 100px;
+  height: 400px;
+  background: var(--module-card-background);
+  top: 0px;
+  right: 40px;
+}
