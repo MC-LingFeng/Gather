@@ -22,3 +22,12 @@ type APIBody<T> = {
   code: number;
   message: string;
 }
+
+type User = {
+  user_id: number,
+  username: string,
+  grade: number,
+  phone?: string,
+  mail?: string,
+  gender?: string,
+}

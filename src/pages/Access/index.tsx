@@ -1,7 +1,42 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { Access, useAccess, useRequest } from '@umijs/max';
-import { Button } from 'antd';
+import { Table } from 'antd';
 import service from './service';
+import { ColumnsType } from 'antd/es/table';
+import { TableProps } from 'antd/lib';
+
+const column: ColumnsType<User> = [
+  {
+    title: 'id',
+    dataIndex: 'user_id',
+    align: 'center',
+  },
+  {
+    title: '用户名',
+    dataIndex: 'username',
+    align: 'center',
+  },
+  {
+    title: '性别',
+    dataIndex: 'gender',
+    align: 'center',
+  },
+  {
+    title: '权限',
+    dataIndex: 'grade',
+    align: 'center',
+  },
+  {
+    title: '电话',
+    dataIndex: 'phone',
+    align: 'center',
+  },
+  {
+    title: '邮件',
+    dataIndex: 'mail',
+    align: 'center',
+  },
+]
 
 const AccessPage: React.FC = () => {
   const access = useAccess();
@@ -9,16 +44,15 @@ const AccessPage: React.FC = () => {
   console.log(userData.data);
   
   return (
-    <PageContainer
-      ghost
-      header={{
-        title: '权限示例',
-      }}
-    >
-      <Access accessible={access.canSeeAdmin}>
-        <Button>只有 Admin 可以看到这个按钮</Button>
-      </Access>
-    </PageContainer>
+    <div>
+      <Table<User>
+        columns={column}
+        dataSource={userData?.data?.data ?? []}
+        size='small'
+        bordered
+        loading={userData.loading}
+      />
+    </div>
   );
 };
 
