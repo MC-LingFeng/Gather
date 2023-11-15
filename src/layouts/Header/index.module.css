@@ -27,6 +27,6 @@
   cursor: pointer;
 }
 
-.user-info-container {
-  position: relative;
-}
+/* .user-info-container {
+  background: var(--module-card-background);
+} */

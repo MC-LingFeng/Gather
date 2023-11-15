@@ -1,13 +1,14 @@
 import { useCssModule } from '@/hooks';
-import { Col, Drawer, Row } from 'antd';
+import { Col, Drawer, Row, Tooltip } from 'antd';
 import { useState } from 'react';
 import { theme } from '../helper';
 import styles from './index.module.css';
 import { useChangeTheme } from '../hooks';
-import { useModel } from '@umijs/max';
+import { useLocation, useModel } from '@umijs/max';
 import themeService from '@/services/theme';
 import { Theme, User } from './svg';
 import { Login, UserOperate } from './components';
+import { useHistoryTravel } from 'ahooks';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
@@ -47,15 +48,19 @@ const Header = () => {
             }
             {
               !!username && (
+                <Tooltip
+                  arrow
+                  title={UserOperate}
+                  color={'var(--module-card-background)'}
+                  placement="bottomRight"
+                >
                   <div style={{ marginRight: 15 }}>
                     <User />
-                    <div className={styleCtx('user-info-container')}>
-                      <UserOperate />
-                    </div>
                   </div>
-                )
+                </Tooltip>
+              )
             }
-            
+
             <div
               style={{ width: '60px', cursor: 'pointer' }}
               onClick={() => setOpen(true)}
@@ -104,7 +109,7 @@ const Header = () => {
           </div>
         </Col>
       </Row>
-      <Login 
+      <Login
         modalProps={{
           open: login,
           onCancel: () => setLogin(false),
