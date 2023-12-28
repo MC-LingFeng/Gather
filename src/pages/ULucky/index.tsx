@@ -11,11 +11,20 @@ const ULucky = () => {
   const data = useRequest(service.setmessage, { manual: true, onSuccess(res) {
     
   } })
+  const imgData = useRequest(service.setmessageimg, { manual: true, onSuccess(res) {
+    
+  } })
 
   const onFinish = (value) => {
-    data.run(value);
+    if (!!value.img) {
+      imgData.run({imgMsg: value.img});
+    }  else {
+      data.run(value);
+    
+    }
   }
-// console.log(data.data.data[0].message.content);
+console.log(imgData);
+
 
   return (
     <div className={ctx('center')}>
@@ -37,14 +46,18 @@ const ULucky = () => {
         <Form.Item name="msg" label='最近发生让你觉得奇怪的事情'>
           <Input.TextArea />
         </Form.Item>
+        <Form.Item name="img" label='描述一个图片'>
+          <Input.TextArea />
+        </Form.Item>
         <Form.Item >
-          <Button type="primary" htmlType='submit' loading={data.loading}>开算！</Button>
+          <Button type="primary" htmlType='submit' loading={data.loading || imgData.loading}>开算！</Button>
         </Form.Item>
       </Form>
       </div>
       <div>
         <p dangerouslySetInnerHTML={{ __html:data.data?.data?.[0]?.message?.content ?? '你等会再来看看吧' }}>
         </p>
+        <img src={`data:image/png;base64,${imgData?.data?.data?.data?.[0]?.b64_json ?? ''}`} width={1024} height={1792} />
       </div>
     </div>
   )
