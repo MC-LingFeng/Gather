@@ -1,21 +1,26 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, message } from 'antd';
 import React from 'react'
 import service from './service';
 import { useRequest } from '@umijs/max';
+import styles from './index.module.css';
+import { useCssModule } from '@/hooks';
 
 const ULucky = () => {
   const [form] = Form.useForm();
+  const ctx = useCssModule(styles);
   const data = useRequest(service.setmessage, { manual: true, onSuccess(res) {
-    console.log(res);
     
   } })
 
   const onFinish = (value) => {
     data.run(value);
   }
+// console.log(data.data.data[0].message.content);
 
   return (
-    <div>
+    <div className={ctx('center')}>
+      <div>吕算子——命数如织</div>
+      <div style={{ width: '400px'}}>
       <Form form={form} onFinish={onFinish}>
         <Form.Item name="name" label='名字'>
           <Input />
@@ -33,9 +38,14 @@ const ULucky = () => {
           <Input.TextArea />
         </Form.Item>
         <Form.Item >
-          <Button type="primary" htmlType='submit'>提交</Button>
+          <Button type="primary" htmlType='submit' loading={data.loading}>开算！</Button>
         </Form.Item>
       </Form>
+      </div>
+      <div>
+        <p dangerouslySetInnerHTML={{ __html:data.data?.data?.[0]?.message?.content ?? '你等会再来看看吧' }}>
+        </p>
+      </div>
     </div>
   )
 }
