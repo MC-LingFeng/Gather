@@ -13,6 +13,12 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     component: '@/pages/ULucky',
   },
   {
+    path: '/eat-what',
+    name: '吃啥',
+    layout: false,
+    component: '@/pages/EatWhat',
+  },
+  {
     name: 'hooks',
     path: '/hooks',
     routes: [
