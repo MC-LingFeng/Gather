@@ -9,7 +9,8 @@ const HomePage: React.FC = () => {
   const { name } = useModel('global');
   return (
     <div>
-      <SliderValidation />
+      {/* <SliderValidation /> */}
+      首页
     </div>
   );
 };
