@@ -21,6 +21,9 @@ export default defineConfig({
   request: { dataField: '' },
   routes,
   proxy,
+  history:{
+    type: 'hash'
+  },
   alias: {"@": '/src'},
   extraPostCSSPlugins: [
     pxToRem({

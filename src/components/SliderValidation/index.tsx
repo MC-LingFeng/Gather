@@ -29,7 +29,7 @@ const SliderValidation = () => {
     const div = document.getElementById('slider') as HTMLInputElement;
     const picture = document.getElementById('picture-slider') as HTMLInputElement;
     
-    if (e.clientX - sliderX.current >=0 && e.clientX - sliderX.current <= 340){
+    if (picture &&div&& e.clientX - sliderX.current >=0 && e.clientX - sliderX.current <= 340){
       div.style.left = e.clientX - sliderX.current + 'px';
       picture.style.left = e.clientX - sliderX.current + 'px';
     }
