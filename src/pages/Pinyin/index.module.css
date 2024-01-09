@@ -1,0 +1,28 @@
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.center-x {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pinyin-container {
+  width: 800px;
+  height: 800px;
+  --pinyin-color: var(--primary);
+}
+
+.pinyin-color {
+  /* color: var(--pinyin-color); */
+  color: red;
+}
+
+.hanzi-color {
+  /* color: var(--pinyin-color); */
+  color: orange;
+}
