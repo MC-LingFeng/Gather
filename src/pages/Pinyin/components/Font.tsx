@@ -7,7 +7,7 @@ import Kai from './Kaiti.ttf'
 
 const createShape = (font: opentype.Font, content: string,svg: SVGSVGElement) => {
   let pathMarkup = '';
-  const fontPaths = font.getPaths(content, 0, 1024, 1024)
+  const fontPaths = font.getPaths(content, 0, 1024-128, 1024)
   fontPaths.forEach(fontPath => {
     let path = fontPath.toSVG(2);
     pathMarkup += path;

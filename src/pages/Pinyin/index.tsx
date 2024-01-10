@@ -1,27 +1,37 @@
 import React, { useCallback, useMemo } from 'react'
 import styles from './index.module.css'
 import { useCssModule } from '@/hooks'
-import { Button, Input, Modal, Space, message } from 'antd'
+import { Button, Drawer, Input, Modal, Space, message } from 'antd'
 import PinyinFun from 'pinyin';
 import { useBoolean } from 'ahooks';
 import html2canvas from 'html2canvas';
 import Font from './components/Font';
 
+interface TextItemType {
+  text: string;
+  pinyin: string;
+  isPolyphony: boolean;
+  polyphony: string[];
+}
 const Pinyin = () => {
-  const classCtx = useCssModule(styles)
-  const [text, setText] = React.useState<string>('')
-  const [open, { setTrue, setFalse }] = useBoolean(false)
+  const classCtx = useCssModule(styles);
+  const [text, setText] = React.useState<string>('');
+  const [open, { setTrue, setFalse }] = useBoolean(false);
+  const [drawer, { setTrue: setDrawerTrue, setFalse: setDrawerFalse }] = useBoolean(false);
+  const [drawerState, setDrawerState] = React.useState<TextItemType|undefined>()
 
   const isChinese = useCallback((value: string) => {
     const reg = /^[\u4E00-\u9FA5]+$/;
     return reg.test(value);
   }, []);
 
-  const formatText = useMemo(() => {
+  const formatText: TextItemType[] = useMemo(() => {
     const formatArr = PinyinFun(text, {
       heteronym: true,              // 启用多音字模式
-      segment: true,  
+      // segment: true,  
     })
+    console.log(text.split(''), formatArr);
+    
    return text.split('').map((item, index) => {
     const itemIsChinese = isChinese(item);
    
@@ -83,7 +93,9 @@ const Pinyin = () => {
         <div style={{ width: '100%', height: '80%', background: 'transparent' }} id='pinyinandhanzi'>
             {formatText?.map((item, index) => {
               return (
-                <ruby key={`${item.text}-${item.pinyin}-${index}`} style={{ padding:item.pinyin !=='' ? '5px' : '0px'}}>
+                <ruby key={`${item.text}-${item.pinyin}-${index}`} style={{ padding:item.pinyin !=='' ? '5px' : '0px'}} onClick={() => {
+                  setDrawerState(item)
+                }}>
                   <p className={item.isPolyphony ? classCtx('hanzi-color') : ''}>{item.text}</p>
                   <rp>(</rp>
                   <rt data-pinyin={item.isPolyphony} className={classCtx('pinyin-color')}>
@@ -94,14 +106,16 @@ const Pinyin = () => {
             )
         })}
         </div>
-        <Font />
+        {/* <Font /> */}
         <div style={{ width: '100%', height: '20%' }}>
           <Input.TextArea 
             // autoSize
             value={text}
             style={{ width: '100%', height: 'calc(100% - 64px)' }}
               onChange={(e) => {
-                setText(e.target.value)
+                console.log(e.target.value);
+                
+                setText(e.target.value.split(' ').join(''))
               }}
           />
         
@@ -113,6 +127,16 @@ const Pinyin = () => {
           </Space>
         </div>
       </div>
+      <Drawer 
+        title={drawerState?.text ?? ''}
+        open={drawer}
+        onClose={() => {
+          setDrawerState(undefined)
+          setDrawerFalse()
+        }}
+      >
+        <Font />
+      </Drawer>
       <Modal title='导出文件' open={open}>
         <div>
           <p>导出文件</p>
