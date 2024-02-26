@@ -1,5 +1,5 @@
 import { Button, Form, Input, Segmented, Select, message } from 'antd';
-import React from 'react'
+import React, { useEffect } from 'react'
 import service from './service';
 import { useRequest } from '@umijs/max';
 import styles from './index.module.css';
@@ -14,20 +14,55 @@ const ULucky = () => {
     
   } })
   const data4 = useRequest(service.setmessage4, { manual: true, onSuccess(res) {
+    console.log(res);
     
   } })
   const imgData = useRequest(service.setmessageimg, { manual: true, onSuccess(res) {
     
   } })
 
-  const onFinish = (value) => {
+  // useEffect(() => {
+  //    const eventSource = new EventSource(`${window.location.origin}/gather/setmessage`);
+  //    eventSource.onopen=(e) => {
+  //     console.log('open', e);
+  //   }
+  //     eventSource.onmessage = function(event) {
+  //       console.log('New message:', event);
+  //     };
+  //     eventSource.onerror = (e) => {
+  //       console.log('error', e);
+  //     }
+  //     return () => {
+  //       eventSource.close()
+  //     }
+  // }, [])
+
+  const onFinish = async (value) => {
     // if (!!value.img) {
     //   imgData.run({imgMsg: value.img});
     // }  else {
       // data.run(value);
     
     // }
-    data4.run(value);
+    // const res =  service.setmessage4(value)
+    console.log(window.location);
+    let ws = new WebSocket(`ws://${window.location.host}/gather/setmessage/ws`)
+    ws.onopen = () => {
+      console.log('open');
+    }
+    ws.onmessage = (e) => {
+      console.log('message', e);
+    }
+    ws.onerror = (err) => {
+      console.log('err', err);
+    }
+    // const eventSource = new EventSource(`${window.location.origin}/gather/setmessage/v4`);
+    //   eventSource.onmessage = function(event) {
+    //     console.log('New message:', event);
+    //   };
+    // res.then((res) )
+ 
+    
   }
 
   return (
