@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import styles from './index.module.css'
 import { useCssModule } from '@/hooks'
-import { Button, Drawer, Input, Modal, Space, message } from 'antd'
+import { Button, ColorPicker, Drawer, Input, Modal, Space, message } from 'antd'
 import PinyinFun from 'pinyin';
 import { useBoolean } from 'ahooks';
 import html2canvas from 'html2canvas';
@@ -19,6 +19,8 @@ const Pinyin = () => {
   const [open, { setTrue, setFalse }] = useBoolean(false);
   const [drawer, { setTrue: setDrawerTrue, setFalse: setDrawerFalse }] = useBoolean(false);
   const [drawerState, setDrawerState] = React.useState<TextItemType|undefined>()
+  const [pinyinColor, setPinyinColor] = useState('#000')
+  const [hanziColor, setHanziColor] = useState('#000')
 
   const isChinese = useCallback((value: string) => {
     const reg = /^[\u4E00-\u9FA5]+$/;
@@ -89,6 +91,12 @@ const Pinyin = () => {
   return (
     <div className={ classCtx('center')}>
       <h1 style={{ textAlign: 'center' }}>拼音</h1>
+      <div style={{ flexDirection: 'row'}} className={ classCtx('center')}>
+        拼音颜色 <ColorPicker style={{ marginLeft: 5 }} value={pinyinColor} onChange={(_, hex) => setPinyinColor(hex)} />
+      </div>
+      <div style={{ flexDirection: 'row'}} className={ classCtx('center')}>
+        汉字颜色 <ColorPicker style={{ marginLeft: 5 }} value={hanziColor} onChange={(_, hex) => setHanziColor(hex)} />
+      </div>
       <div className={classCtx([ 'pinyin-container'])}>
         <div style={{ width: '100%', height: '80%', background: 'transparent' }} id='pinyinandhanzi'>
             {formatText?.map((item, index) => {
@@ -96,9 +104,14 @@ const Pinyin = () => {
                 <ruby key={`${item.text}-${item.pinyin}-${index}`} style={{ padding:item.pinyin !=='' ? '5px' : '0px'}} onClick={() => {
                   setDrawerState(item)
                 }}>
-                  <p className={item.isPolyphony ? classCtx('hanzi-color') : ''}>{item.text}</p>
+                  <p 
+                  // className={item.isPolyphony ? classCtx('hanzi-color') : ''}
+                  style={{ color: hanziColor }}
+                  >{item.text}</p>
                   <rp>(</rp>
-                  <rt data-pinyin={item.isPolyphony} className={classCtx('pinyin-color')}>
+                  <rt data-pinyin={item.isPolyphony}
+                  style={{ color: pinyinColor }}
+                  >
                     {item.pinyin}
                   </rt>
                   <rp>)</rp>
