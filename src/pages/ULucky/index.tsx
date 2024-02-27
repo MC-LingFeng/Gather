@@ -41,7 +41,8 @@ const ULucky = () => {
   //     }
   // }, [])
   useEffect(() => {
-    let ws = new WebSocket(`ws://localhost:8090/gather/setmessage/ws`)
+    let ws = new WebSocket(`wss://${window.location.host}/gather/setmessage/ws`)
+    // let ws = new WebSocket(`ws://localhost:8090/gather/setmessage/ws`)
     ws.onopen = () => {
       console.log('open');
     }
@@ -71,7 +72,6 @@ const ULucky = () => {
       wss.send(jsonvalue)
     }
   }
-  console.log(pase);
   
 
   return (
