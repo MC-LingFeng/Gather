@@ -10,6 +10,7 @@ const proxyList = proxyMap as any;
 const proxy = proxyList[PROXY!]?.proxy || {};
 
 export default defineConfig({
+  esbuildMinifyIIFE: true,
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   antd: {
     style: 'css',
