@@ -4,11 +4,10 @@ import { useState } from 'react';
 import { theme } from '../helper';
 import styles from './index.module.css';
 import { useChangeTheme } from '../hooks';
-import { useLocation, useModel } from '@umijs/max';
+import { useModel } from '@umijs/max';
 import themeService from '@/services/theme';
 import { Theme, User } from './svg';
 import { Login, UserOperate } from './components';
-import { useHistoryTravel } from 'ahooks';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);

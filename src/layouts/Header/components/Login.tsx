@@ -15,12 +15,10 @@ const Login: React.FC<LoginProps> = ({ modalProps }) => {
   const [form] = Form.useForm();
 
   const login = useRequest(service.login, { manual: true, onSuccess(res) {
-    console.log(res.data);
-    
     if (res.code === 200 && res.data?.token) {
-
       window.sessionStorage.setItem('token', res.data.token);
       window.sessionStorage.setItem('username', res.data.username);
+      window.location.reload();
     }
     if (res.code === 101){
       form.setFields([
@@ -33,14 +31,12 @@ const Login: React.FC<LoginProps> = ({ modalProps }) => {
         { errors: [res.message], name: 'password', value: login.params[0].password }
       ])
     }
-    
   }, });
-  const register = useRequest(service.register, { manual: true,  onSuccess(res) {
 
-    if (res.code === 200 && res.data?.username) {
-      
-      window.sessionStorage.setItem('username', res.data.username);
-      window.location.reload();
+  const register = useRequest(service.register, { manual: true,  onSuccess(res) {
+    if (res.code === 200) {
+      const params = register.params[0]
+      login.run(params);
     }
 
     if (res.code === 201) {
