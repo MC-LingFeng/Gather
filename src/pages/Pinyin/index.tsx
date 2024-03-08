@@ -14,8 +14,11 @@ import PinyinFun from 'pinyin';
 import React, { useCallback, useMemo, useState } from 'react';
 import Font from './components/Font';
 import styles from './index.module.css';
+import { useRequest } from '@umijs/max';
+import service from './service';
+import { cloneDeep} from 'lodash'
 
-interface TextItemType {
+export interface TextItemType {
   text: string;
   pinyin: string;
   isPolyphony: boolean;
@@ -32,20 +35,23 @@ const Pinyin = () => {
   >();
   const [pinyinColor, setPinyinColor] = useState('#000');
   const [hanziColor, setHanziColor] = useState('#000');
+  const [pinyinAll, setPinyinAll] = useState<string[][]>([]);
+  const [values, setValues] = useState<TextItemType[]>([]);
+
+  const getWordRes = useRequest(service.getWord, { manual: true })
 
   const isChinese = useCallback((value: string) => {
     const reg = /^[\u4E00-\u9FA5]+$/;
     return reg.test(value);
   }, []);
 
-  const formatText: TextItemType[] = useMemo(() => {
-    const formatArr = PinyinFun(text, {
+  const getArr = (texts: string) => {
+    const formatArr = PinyinFun(texts, {
       heteronym: true, // 启用多音字模式
       // segment: true,
     });
-    console.log(text.split(''), formatArr);
-
-    return text.split('').map((item, index) => {
+    setPinyinAll(formatArr)
+    const value = texts.split('').map((item, index) => {
       const itemIsChinese = isChinese(item);
 
       if (itemIsChinese) {
@@ -64,7 +70,36 @@ const Pinyin = () => {
           polyphony: [],
         };
       }
+    })
+    return value;
+  }
+  const formatText: TextItemType[] = useMemo(() => {
+    const formatArr = PinyinFun(text, {
+      heteronym: true, // 启用多音字模式
+      // segment: true,
     });
+    setPinyinAll(formatArr)
+    const value = text.split('').map((item, index) => {
+      const itemIsChinese = isChinese(item);
+
+      if (itemIsChinese) {
+        const pinyin = formatArr?.[index];
+        return {
+          text: item,
+          pinyin: pinyin[0],
+          isPolyphony: pinyin?.length > 1,
+          polyphony: pinyin ?? [],
+        };
+      } else {
+        return {
+          text: item,
+          pinyin: '',
+          isPolyphony: false,
+          polyphony: [],
+        };
+      }
+    })
+    return value;
   }, [text]);
 
   const onExportPicture = useCallback(() => {
@@ -95,8 +130,6 @@ const Pinyin = () => {
     }
   }, []);
 
-  console.log(formatText);
-
   return (
     <div className={classCtx('center')}>
       <h1 style={{ textAlign: 'center' }}>拼音</h1>
@@ -121,13 +154,15 @@ const Pinyin = () => {
           style={{ width: '100%', height: '80%', background: 'transparent' }}
           id="pinyinandhanzi"
         >
-          {formatText?.map((item, index) => {
+          {(values.length === 0? formatText:values)?.map((item, index) => {
             return (
               <ruby
                 key={`${item.text}-${item.pinyin}-${index}`}
                 style={{ padding: item.pinyin !== '' ? '5px' : '0px' }}
                 onClick={() => {
                   setDrawerState(item);
+                  setDrawerTrue();
+                  getWordRes.run(item.text)
                 }}
               >
                 <p
@@ -154,9 +189,11 @@ const Pinyin = () => {
             // autoSize
             value={text}
             style={{ width: '100%', height: 'calc(100% - 64px)' }}
+            onBlur={(e) => {
+              const value = getArr(e.target.value.split(' ').join(''))
+              setValues(value)
+            }}  
             onChange={(e) => {
-              console.log(e.target.value);
-
               setText(e.target.value.split(' ').join(''));
             }}
           />
@@ -177,14 +214,37 @@ const Pinyin = () => {
         </div>
       </div>
       <Drawer
-        title={drawerState?.text ?? ''}
+        title={`${getWordRes?.data?.data?.word ?? ''}「${getWordRes?.data?.data?.pinyin ?? ''}」`}
         open={drawer}
+        destroyOnClose
         onClose={() => {
           setDrawerState(undefined);
           setDrawerFalse();
         }}
       >
-        <Font />
+        {useMemo(() => (<Font 
+        font={drawerState} 
+        res={{ data: getWordRes.data?.data, loading: getWordRes.loading }} 
+        onChange={(value) => {
+          setDrawerState((res) => {
+            return { ...res, pinyin: value } as TextItemType
+          })
+          setValues((res) => {
+            const change = res.find((item) => item.polyphony.includes(value))
+            const index = res.findIndex((item) => item.polyphony.includes(value))
+            const copy = cloneDeep(res);
+            if (!change){
+              return res
+            }
+            const changeCopy = cloneDeep(change);
+            copy.splice(index, 1, {...changeCopy, pinyin: value});
+            return copy
+          })
+          
+        }}
+        
+        />
+        ), [getWordRes.data, drawerState, pinyinAll])}
       </Drawer>
       <Modal title="导出文件" open={open}>
         <div>

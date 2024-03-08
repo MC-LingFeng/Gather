@@ -1,6 +1,9 @@
 import opentype from 'opentype.js';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Kai from './Kaiti.ttf';
+import { TextItemType } from '..';
+import { WordType } from '../type';
+import { Segmented } from 'antd';
 /** 笔顺动画原数据 */
 
 const createShape = (
@@ -14,13 +17,10 @@ const createShape = (
     let path = fontPath.toSVG(2);
     pathMarkup += path;
   });
-  console.log(fontPaths);
 
   const g = svg.childNodes[1] as SVGSVGElement;
   g.insertAdjacentHTML('beforeend', pathMarkup);
-  // g.setAttribute('transform', 'scale(0.5, 0.5)');
   let viewBox = svg.getBBox();
-  // console.log([0, 0, (viewBox.width + viewBox.x).toFixed(2), (viewBox.height + viewBox.y).toFixed(2)], viewBox);
 
   g.setAttribute(
     'viewBox',
@@ -33,20 +33,27 @@ const createShape = (
   );
 };
 
-const Font = () => {
+const Font = ({font: textItem, res: { data, loading }, onChange} 
+  : {font?: TextItemType, res: { data: WordType, loading: boolean }, onChange: (value: string) => void}) => {
   const ref = React.useRef<SVGSVGElement | null>(null);
   useEffect(() => {
     opentype.load(Kai, (err, font) => {
       if (ref.current && font) {
-        createShape(font, '我', ref.current);
+        createShape(font, textItem?.text??'', ref.current);
       } else {
         console.log(err);
       }
     });
-  }, [ref.current]);
+  }, [ref.current, textItem, data]);
 
   return (
     <div>
+      <div>{data?.pinyin ?? ''}</div>
+      <Segmented 
+        value={textItem?.pinyin as any}
+        options={textItem?.polyphony?.map((item) => ({ label: item, value: item }))??[]}
+        onChange={onChange as any}
+      />
       <svg
         version="1.1"
         viewBox="0 0 1024 1024"
@@ -74,6 +81,14 @@ const Font = () => {
         {/* 文字svg路径 */}
         <g id="my-font-g"></g>
       </svg>
+      <div>
+        <div>解释</div>
+        <p style={{ whiteSpace: 'pre-wrap' }}>{data?.explanation ?? ''}</p>
+      </div>
+      {/* <div>
+        <div>更多</div>
+        <p style={{ whiteSpace: 'pre-wrap'}}>{data?.more ?? ''}</p>
+      </div> */}
     </div>
   );
 };
