@@ -1,11 +1,11 @@
 declare module 'postcss-pxtorem';
-declare module  'react-syntax-highlighter/dist/esm/styles/prism';
-declare module  'react-syntax-highlighter';
+declare module 'react-syntax-highlighter/dist/esm/styles/prism';
+declare module 'react-syntax-highlighter';
 
 interface InitialState extends User.Info {
   name: string;
   routes: IRoute[];
-  defaultAntdColor: Record<string, string>
+  defaultAntdColor: Record<string, string>;
   defaultTheme: string;
 }
 
@@ -18,16 +18,16 @@ type IRoute = {
 };
 
 type APIBody<T> = {
-  data: T,
+  data: T;
   code: number;
   message: string;
-}
+};
 
 type User = {
-  user_id: number,
-  username: string,
-  grade: number,
-  phone?: string,
-  mail?: string,
-  gender?: string,
-}
+  user_id: number;
+  username: string;
+  grade: number;
+  phone?: string;
+  mail?: string;
+  gender?: string;
+};

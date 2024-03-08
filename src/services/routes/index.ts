@@ -1,9 +1,9 @@
-import {request} from '@umijs/max';
+import { request } from '@umijs/max';
 import { RouteApi } from './type';
 
 export default {
-  getPath(){
+  getPath() {
     const url = '/gather/routes';
-    return request<APIBody<RouteApi[]>>(url, { method: 'GET' })
-  }
-}
+    return request<APIBody<RouteApi[]>>(url, { method: 'GET' });
+  },
+};

@@ -1,1 +1,1 @@
-export {default as useChangeTheme} from './useChangeTheme'
+export { default as useChangeTheme } from './useChangeTheme';

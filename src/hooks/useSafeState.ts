@@ -1,14 +1,14 @@
-import { useCallback, useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
-import useUnmounted from "./useUnmounted";
+import type { Dispatch, SetStateAction } from 'react';
+import { useCallback, useState } from 'react';
+import useUnmounted from './useUnmounted';
 
 function useSafeState<S>(
-  initialState: S | (() => S)
+  initialState: S | (() => S),
 ): [S, Dispatch<SetStateAction<S>>];
 
 function useSafeState<S = undefined>(): [
   S | undefined,
-  Dispatch<SetStateAction<S | undefined>>
+  Dispatch<SetStateAction<S | undefined>>,
 ];
 
 function useSafeState<S>(initialState?: S | (() => S)) {

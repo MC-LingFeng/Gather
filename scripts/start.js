@@ -1,4 +1,3 @@
-
 const spawn = require('child_process').spawn;
 const inquirer = require('inquirer');
 const proxyMap = require('../config/proxy.js');
@@ -31,4 +30,3 @@ inquirer
   .catch((error) => {
     console.log('[debug]: error', error);
   });
-

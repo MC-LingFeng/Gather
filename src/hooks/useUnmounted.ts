@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react';
 /**
  * 组件是否是卸载状态
  * @returns React.MutableRefObject<boolean>
@@ -13,7 +13,7 @@ const useUnmounted: () => React.MutableRefObject<boolean> = () => {
     };
   }, []);
 
-  return unmounted
-}
+  return unmounted;
+};
 
-export default useUnmounted
+export default useUnmounted;

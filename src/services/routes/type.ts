@@ -4,5 +4,5 @@ export interface RouteApi {
   name: string;
   path: string;
   father_path: string | null;
-  children: RouteApi[] | []
+  children: RouteApi[] | [];
 }

@@ -1,8 +1,8 @@
-import classNames from "classnames/bind"
+import classNames from 'classnames/bind';
 
 const useCssModule = (styles: Record<any, string>) => {
   const styleCtx = classNames.bind(styles);
-    return styleCtx;
-}
+  return styleCtx;
+};
 
-export default useCssModule
+export default useCssModule;

@@ -7,6 +7,4 @@ const getLocalRoutes = (routes: UMIRoute): IRoute[] => {
     .filter((_) => !_.redirect)
     .filter((_) => !notDisplayOnMenuRoutes.includes(_.path)) as IRoute[];
 };
-export {
-  getLocalRoutes,
-};
+export { getLocalRoutes };

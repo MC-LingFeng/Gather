@@ -1,11 +1,19 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import styles from './index.module.css'
-import { useCssModule } from '@/hooks'
-import { Button, ColorPicker, Drawer, Input, Modal, Space, message } from 'antd'
-import PinyinFun from 'pinyin';
+import { useCssModule } from '@/hooks';
 import { useBoolean } from 'ahooks';
+import {
+  Button,
+  ColorPicker,
+  Drawer,
+  Input,
+  Modal,
+  Space,
+  message,
+} from 'antd';
 import html2canvas from 'html2canvas';
+import PinyinFun from 'pinyin';
+import React, { useCallback, useMemo, useState } from 'react';
 import Font from './components/Font';
+import styles from './index.module.css';
 
 interface TextItemType {
   text: string;
@@ -17,10 +25,13 @@ const Pinyin = () => {
   const classCtx = useCssModule(styles);
   const [text, setText] = React.useState<string>('');
   const [open, { setTrue, setFalse }] = useBoolean(false);
-  const [drawer, { setTrue: setDrawerTrue, setFalse: setDrawerFalse }] = useBoolean(false);
-  const [drawerState, setDrawerState] = React.useState<TextItemType|undefined>()
-  const [pinyinColor, setPinyinColor] = useState('#000')
-  const [hanziColor, setHanziColor] = useState('#000')
+  const [drawer, { setTrue: setDrawerTrue, setFalse: setDrawerFalse }] =
+    useBoolean(false);
+  const [drawerState, setDrawerState] = React.useState<
+    TextItemType | undefined
+  >();
+  const [pinyinColor, setPinyinColor] = useState('#000');
+  const [hanziColor, setHanziColor] = useState('#000');
 
   const isChinese = useCallback((value: string) => {
     const reg = /^[\u4E00-\u9FA5]+$/;
@@ -29,37 +40,36 @@ const Pinyin = () => {
 
   const formatText: TextItemType[] = useMemo(() => {
     const formatArr = PinyinFun(text, {
-      heteronym: true,              // 启用多音字模式
-      // segment: true,  
-    })
+      heteronym: true, // 启用多音字模式
+      // segment: true,
+    });
     console.log(text.split(''), formatArr);
-    
-   return text.split('').map((item, index) => {
-    const itemIsChinese = isChinese(item);
-   
-    if (itemIsChinese) {
-      const pinyin = formatArr?.[index]
-      return {
-        text: item,
-        pinyin: pinyin[0],
-        isPolyphony: pinyin?.length > 1,
-        polyphony: pinyin ?? [],
+
+    return text.split('').map((item, index) => {
+      const itemIsChinese = isChinese(item);
+
+      if (itemIsChinese) {
+        const pinyin = formatArr?.[index];
+        return {
+          text: item,
+          pinyin: pinyin[0],
+          isPolyphony: pinyin?.length > 1,
+          polyphony: pinyin ?? [],
+        };
+      } else {
+        return {
+          text: item,
+          pinyin: '',
+          isPolyphony: false,
+          polyphony: [],
+        };
       }
-    } else {
-      return {
-        text: item,
-        pinyin: '',
-        isPolyphony: false,
-        polyphony: [],
-      }
-    }
-  })
-    
-  }, [text])
+    });
+  }, [text]);
 
   const onExportPicture = useCallback(() => {
     const node = document.getElementById('pinyinandhanzi') as HTMLElement;
-    
+
     // 调用
     if (node) {
       html2canvas(node, {
@@ -83,84 +93,112 @@ const Pinyin = () => {
     } else {
       message.error('下载失败~请联系管理员');
     }
-  }, [])
+  }, []);
 
   console.log(formatText);
-  
 
   return (
-    <div className={ classCtx('center')}>
+    <div className={classCtx('center')}>
       <h1 style={{ textAlign: 'center' }}>拼音</h1>
-      <div style={{ flexDirection: 'row'}} className={ classCtx('center')}>
-        拼音颜色 <ColorPicker style={{ marginLeft: 5 }} value={pinyinColor} onChange={(_, hex) => setPinyinColor(hex)} />
+      <div style={{ flexDirection: 'row' }} className={classCtx('center')}>
+        拼音颜色{' '}
+        <ColorPicker
+          style={{ marginLeft: 5 }}
+          value={pinyinColor}
+          onChange={(_, hex) => setPinyinColor(hex)}
+        />
       </div>
-      <div style={{ flexDirection: 'row'}} className={ classCtx('center')}>
-        汉字颜色 <ColorPicker style={{ marginLeft: 5 }} value={hanziColor} onChange={(_, hex) => setHanziColor(hex)} />
+      <div style={{ flexDirection: 'row' }} className={classCtx('center')}>
+        汉字颜色{' '}
+        <ColorPicker
+          style={{ marginLeft: 5 }}
+          value={hanziColor}
+          onChange={(_, hex) => setHanziColor(hex)}
+        />
       </div>
-      <div className={classCtx([ 'pinyin-container'])}>
-        <div style={{ width: '100%', height: '80%', background: 'transparent' }} id='pinyinandhanzi'>
-            {formatText?.map((item, index) => {
-              return (
-                <ruby key={`${item.text}-${item.pinyin}-${index}`} style={{ padding:item.pinyin !=='' ? '5px' : '0px'}} onClick={() => {
-                  setDrawerState(item)
-                }}>
-                  <p 
+      <div className={classCtx(['pinyin-container'])}>
+        <div
+          style={{ width: '100%', height: '80%', background: 'transparent' }}
+          id="pinyinandhanzi"
+        >
+          {formatText?.map((item, index) => {
+            return (
+              <ruby
+                key={`${item.text}-${item.pinyin}-${index}`}
+                style={{ padding: item.pinyin !== '' ? '5px' : '0px' }}
+                onClick={() => {
+                  setDrawerState(item);
+                }}
+              >
+                <p
                   // className={item.isPolyphony ? classCtx('hanzi-color') : ''}
                   style={{ color: hanziColor }}
-                  >{item.text}</p>
-                  <rp>(</rp>
-                  <rt data-pinyin={item.isPolyphony}
+                >
+                  {item.text}
+                </p>
+                <rp>(</rp>
+                <rt
+                  data-pinyin={item.isPolyphony}
                   style={{ color: pinyinColor }}
-                  >
-                    {item.pinyin}
-                  </rt>
-                  <rp>)</rp>
-                </ruby>
-            )
-        })}
+                >
+                  {item.pinyin}
+                </rt>
+                <rp>)</rp>
+              </ruby>
+            );
+          })}
         </div>
         {/* <Font /> */}
         <div style={{ width: '100%', height: '20%' }}>
-          <Input.TextArea 
+          <Input.TextArea
             // autoSize
             value={text}
             style={{ width: '100%', height: 'calc(100% - 64px)' }}
-              onChange={(e) => {
-                console.log(e.target.value);
-                
-                setText(e.target.value.split(' ').join(''))
-              }}
+            onChange={(e) => {
+              console.log(e.target.value);
+
+              setText(e.target.value.split(' ').join(''));
+            }}
           />
-        
+
           <Space className={classCtx('center-x')}>
-              <Button onClick={() => setText('')} type='primary' danger>清空</Button>
-              <Button type='primary' onClick={() => {
-                setTrue()
-              }}>导出</Button>
+            <Button onClick={() => setText('')} type="primary" danger>
+              清空
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setTrue();
+              }}
+            >
+              导出
+            </Button>
           </Space>
         </div>
       </div>
-      <Drawer 
+      <Drawer
         title={drawerState?.text ?? ''}
         open={drawer}
         onClose={() => {
-          setDrawerState(undefined)
-          setDrawerFalse()
+          setDrawerState(undefined);
+          setDrawerFalse();
         }}
       >
         <Font />
       </Drawer>
-      <Modal title='导出文件' open={open}>
+      <Modal title="导出文件" open={open}>
         <div>
           <p>导出文件</p>
         </div>
         <Space>
           {/* <Button onClick={() => setFalse()}>取消</Button> */}
-          <Button type='primary' onClick={onExportPicture}>导出图片</Button>
-          </Space>
+          <Button type="primary" onClick={onExportPicture}>
+            导出图片
+          </Button>
+        </Space>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default Pinyin
+export default Pinyin;

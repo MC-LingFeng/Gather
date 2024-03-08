@@ -1,9 +1,7 @@
-import { PageContainer } from '@ant-design/pro-components';
-import { Access, useAccess, useRequest } from '@umijs/max';
+import { useAccess, useRequest } from '@umijs/max';
 import { Table } from 'antd';
-import service from './service';
 import { ColumnsType } from 'antd/es/table';
-import { TableProps } from 'antd/lib';
+import service from './service';
 
 const column: ColumnsType<User> = [
   {
@@ -36,19 +34,19 @@ const column: ColumnsType<User> = [
     dataIndex: 'mail',
     align: 'center',
   },
-]
+];
 
 const AccessPage: React.FC = () => {
   const access = useAccess();
-  const userData = useRequest(service.getUser, { manual: false })
+  const userData = useRequest(service.getUser, { manual: false });
   console.log(userData.data);
-  
+
   return (
     <div>
       <Table<User>
         columns={column}
         dataSource={userData?.data?.data ?? []}
-        size='small'
+        size="small"
         bordered
         loading={userData.loading}
       />

@@ -1,10 +1,10 @@
 import ReactMarkdown from 'react-markdown';
 
-import mark from './performance.md'
 import { useMarkdown } from '@/hooks';
+import mark from './performance.md';
 
 const Help = () => {
-  const markdownProps = useMarkdown(mark)
+  const markdownProps = useMarkdown(mark);
 
   return (
     <div>

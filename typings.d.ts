@@ -1,6 +1,5 @@
 import '@umijs/max/typings';
 
-
 import { defineConfig } from '@umijs/max';
 
 type URoute = Parameters<typeof defineConfig>[0]['routes'];

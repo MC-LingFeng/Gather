@@ -32,7 +32,7 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
         name: '自定义hooks',
         path: '/hooks/customize',
         component: '@/pages/StudyHooks/Customize',
-      }
+      },
     ],
   },
   {

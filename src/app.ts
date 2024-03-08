@@ -1,5 +1,4 @@
 // 运行时配置
-import { getInitialState, request } from "./runtime";
+import { getInitialState, request } from './runtime';
 
-
-export { getInitialState, request } 
+export { getInitialState, request };

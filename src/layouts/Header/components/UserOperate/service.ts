@@ -1,8 +1,8 @@
-import { request } from '@umijs/max'
+import { request } from '@umijs/max';
 
 export default {
-  loginout(data: { username: string }){
+  loginout(data: { username: string }) {
     const url = '/gather/loginout';
-    return request<APIBody<User[]>>(url, { method: 'POST', data })
-  }
-}
+    return request<APIBody<User[]>>(url, { method: 'POST', data });
+  },
+};

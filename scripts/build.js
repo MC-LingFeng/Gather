@@ -1,4 +1,3 @@
-
 const spawn = require('child_process').spawn;
 const inquirer = require('inquirer');
 
@@ -14,12 +13,7 @@ inquirer
   .then((answers) => {
     spawn(
       /^win/.test(process.platform) ? 'cross-env.cmd' : 'cross-env',
-      [
-        "MODE='build'",
-        `COMPATIBLE=${answers.builds}`,
-        'max',
-        'build',
-      ],
+      ["MODE='build'", `COMPATIBLE=${answers.builds}`, 'max', 'build'],
       {
         stdio: 'inherit',
       },
@@ -29,4 +23,3 @@ inquirer
   .catch((error) => {
     console.log('[debug]: error', error);
   });
-

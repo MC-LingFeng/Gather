@@ -2,16 +2,16 @@ const getProxy = (target, matchPath, pathRewrite) => ({
   proxy: {
     [matchPath]: pathRewrite
       ? {
-        target,
-        changeOrigin: true,
-        pathRewrite: {
-          [matchPath]: pathRewrite,
-        },
-      }
+          target,
+          changeOrigin: true,
+          pathRewrite: {
+            [matchPath]: pathRewrite,
+          },
+        }
       : {
-        target,
-        enable: true,
-      },
+          target,
+          enable: true,
+        },
   },
 });
 

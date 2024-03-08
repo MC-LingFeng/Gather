@@ -2,7 +2,7 @@
 import { useSafeState } from '@/hooks';
 
 const useTheme = () => {
-  const defaultTheme = window.localStorage.getItem('theme') || 'white'
+  const defaultTheme = window.localStorage.getItem('theme') || 'white';
   const [themeName, setThemeName] = useSafeState<string>(defaultTheme);
   return {
     themeName,

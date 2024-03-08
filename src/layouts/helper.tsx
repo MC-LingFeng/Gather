@@ -1,6 +1,5 @@
-import { Tooltip, type MenuProps, ThemeConfig } from 'antd';
+import { ThemeConfig, Tooltip, type MenuProps } from 'antd';
 import cssVars from 'css-vars-ponyfill';
-
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -22,7 +21,7 @@ function transformRoutesToMenu(root: IRoute[]) {
   return result;
 }
 
-const theme: Record<string, {[key: string]: string}> = {
+const theme: Record<string, { [key: string]: string }> = {
   white: {
     '--primary': '#91caff',
     '--background-img': `url(${require('@/assets/img/White-BG.jpg')})`,
@@ -31,7 +30,6 @@ const theme: Record<string, {[key: string]: string}> = {
     '--icon-color': '#91caff',
     '--primary-light': '#d6e4ff',
     '--module-card-background': 'rgba(255, 255, 255, 0.8)',
-
   },
   black: {
     '--primary': '#5A54F9',
@@ -69,17 +67,18 @@ const theme: Record<string, {[key: string]: string}> = {
     '--primary-light': '#b7eb8f',
     '--module-card-background': 'rgba(255, 255, 255, 0.8)',
   },
-}
+};
 
-function changeTheme(themeObj: {[key: string]: string}) {
-
+function changeTheme(themeObj: { [key: string]: string }) {
   cssVars({
     variables: themeObj,
     rootElement: document.documentElement,
   });
 }
-const getAntdStyle: (defaultAntdColor: Record<string, string>) => ThemeConfig  = (defaultAntdColor: Record<string, string>) => {
-  return  {
+const getAntdStyle: (
+  defaultAntdColor: Record<string, string>,
+) => ThemeConfig = (defaultAntdColor: Record<string, string>) => {
+  return {
     token: {
       colorPrimary: defaultAntdColor?.['--primary'],
       colorSuccess: defaultAntdColor?.['--primary'],
@@ -108,6 +107,6 @@ const getAntdStyle: (defaultAntdColor: Record<string, string>) => ThemeConfig  =
         colorText: defaultAntdColor?.['--primary'],
       },
     },
-  }
-}
-export { transformRoutesToMenu, theme, changeTheme , getAntdStyle};
+  };
+};
+export { changeTheme, getAntdStyle, theme, transformRoutesToMenu };

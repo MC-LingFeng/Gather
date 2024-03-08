@@ -1,13 +1,13 @@
 import { useCssModule } from '@/hooks';
+import themeService from '@/services/theme';
+import { useModel } from '@umijs/max';
 import { Col, Drawer, Row, Tooltip } from 'antd';
 import { useState } from 'react';
 import { theme } from '../helper';
-import styles from './index.module.css';
 import { useChangeTheme } from '../hooks';
-import { useModel } from '@umijs/max';
-import themeService from '@/services/theme';
-import { Theme, User } from './svg';
 import { Login, UserOperate } from './components';
+import styles from './index.module.css';
+import { Theme, User } from './svg';
 
 const Header = () => {
   const styleCtx = useCssModule(styles);
@@ -15,7 +15,7 @@ const Header = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const changeTheme = useChangeTheme();
-  const { setThemeName } = useModel('theme')
+  const { setThemeName } = useModel('theme');
 
   return (
     <div className={styleCtx('header-container')}>
@@ -39,26 +39,27 @@ const Header = () => {
               alignItems: 'center',
             }}
           >
-            {!username &&
-              <div style={{ marginRight: 15 }} onClick={() => setLogin(true)} className={styleCtx('hands-true')}>
-                <span>登录</span>丨
-                <span>注册</span>
+            {!username && (
+              <div
+                style={{ marginRight: 15 }}
+                onClick={() => setLogin(true)}
+                className={styleCtx('hands-true')}
+              >
+                <span>登录</span>丨<span>注册</span>
               </div>
-            }
-            {
-              !!username && (
-                <Tooltip
-                  arrow
-                  title={UserOperate}
-                  color={'var(--module-card-background)'}
-                  placement="bottomRight"
-                >
-                  <div style={{ marginRight: 15 }}>
-                    <User />
-                  </div>
-                </Tooltip>
-              )
-            }
+            )}
+            {!!username && (
+              <Tooltip
+                arrow
+                title={UserOperate}
+                color={'var(--module-card-background)'}
+                placement="bottomRight"
+              >
+                <div style={{ marginRight: 15 }}>
+                  <User />
+                </div>
+              </Tooltip>
+            )}
 
             <div
               style={{ width: '60px', cursor: 'pointer' }}
@@ -80,13 +81,13 @@ const Header = () => {
                       key={`${item}-theme-button`}
                       style={{ display: 'flex', alignItems: 'center' }}
                       onClick={(e) => {
-                        setThemeName(item)
-                        changeTheme(item, e)
+                        setThemeName(item);
+                        changeTheme(item, e);
                         themeService.setTheme({
                           value: item,
-                          id: 1
-                        })
-                        setOpen(false)
+                          id: 1,
+                        });
+                        setOpen(false);
                       }}
                     >
                       <div

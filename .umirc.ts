@@ -1,8 +1,8 @@
 import { defineConfig } from '@umijs/max';
 import pxToRem from 'postcss-pxtorem';
-const path = require('path');
-import routes from './config/routes';
 import proxyMap from './config/proxy.js';
+import routes from './config/routes';
+const path = require('path');
 
 const { MODE, PROXY, MENU_SOURCE } = process.env;
 
@@ -22,10 +22,10 @@ export default defineConfig({
   request: { dataField: '' },
   routes,
   proxy,
-  history:{
-    type: 'hash'
+  history: {
+    type: 'hash',
   },
-  alias: {"@": '/src'},
+  alias: { '@': '/src' },
   extraPostCSSPlugins: [
     pxToRem({
       rootValue: 16,

@@ -1,22 +1,20 @@
 import { antdColorKey } from '@/runtime/getInitialState';
 import { useModel } from '@umijs/max';
-import React from 'react'
-
+import React from 'react';
 
 const useChangeTheme = () => {
   const { setInitialState } = useModel('@@initialState');
-  const { setName} = useModel('global')
+  const { setName } = useModel('global');
 
-  const changeTheme: (key: string, e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>) =>void = (item, e) => {
+  const changeTheme: (
+    key: string,
+    e: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>,
+  ) => void = (item, e) => {
     window.localStorage.setItem('theme', item);
     e.stopPropagation();
-    document.documentElement.setAttribute(
-      `data-theme`,
-      item,
-    );
+    document.documentElement.setAttribute(`data-theme`, item);
 
-    const computedStyle =
-      document.documentElement.computedStyleMap();
+    const computedStyle = document.documentElement.computedStyleMap();
     const defaultAntdColor: Record<string, string> = {};
     computedStyle.forEach((value, key) => {
       if (antdColorKey.includes(key)) {
@@ -33,8 +31,8 @@ const useChangeTheme = () => {
         return 'light';
       }
     });
-  }
-  return changeTheme
-}
+  };
+  return changeTheme;
+};
 
-export default useChangeTheme
+export default useChangeTheme;
