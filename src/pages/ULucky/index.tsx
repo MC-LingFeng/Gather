@@ -46,7 +46,7 @@ const ULucky = () => {
   // }, [])
   useEffect(() => {
     let ws = new WebSocket(
-      `wss://${window.location.host}/gather/setmessage/ws`,
+      `ws://${window.location.hostname}:8080`,
     );
     // let ws = new WebSocket(`ws://localhost:8090/gather/setmessage/ws`)
     ws.onopen = () => {
@@ -55,10 +55,11 @@ const ULucky = () => {
     ws.onmessage = (e) => {
       if (e.data === 'end') {
         loadingOpt.setFalse();
+      } else {
+        setPase((res) => {
+          return `${res}${e.data}`;
+        });
       }
-      setPase((res) => {
-        return `${res}${e.data}`;
-      });
     };
     ws.onerror = (err) => {
       console.log('err', err);
@@ -73,7 +74,7 @@ const ULucky = () => {
   const onFinish = async (value) => {
     setPase('');
     loadingOpt.setTrue();
-    const jsonvalue = JSON.stringify({ ...value, start: 'pase' });
+    const jsonvalue = JSON.stringify({ event: 'openai', data:{ ...value, start: 'pase',}  });
     if (wss) {
       wss.send(jsonvalue);
     }
