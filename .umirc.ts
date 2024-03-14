@@ -6,6 +6,7 @@ const path = require('path');
 
 const { MODE, PROXY, MENU_SOURCE } = process.env;
 
+
 const proxyList = proxyMap as any;
 const proxy = proxyList[PROXY!]?.proxy || {};
 
@@ -17,6 +18,9 @@ export default defineConfig({
   },
   hash: true,
   access: {},
+  define: {
+    MODE
+  },
   model: {},
   initialState: {},
   request: { dataField: '' },

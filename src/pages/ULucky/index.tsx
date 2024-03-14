@@ -46,7 +46,7 @@ const ULucky = () => {
   // }, [])
   useEffect(() => {
     let ws = new WebSocket(
-      `wss://${window.location.host}/socket`,
+      MODE === 'dev'? `ws://localhost:8080/socket` : `wss://${window.location.host}/socket`,
     );
     // let ws = new WebSocket(`ws://localhost:8090/gather/setmessage/ws`)
     ws.onopen = () => {
