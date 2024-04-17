@@ -19,6 +19,18 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     component: '@/pages/EatWhat',
   },
   {
+    path: '/ai-picture',
+    name: 'AI 绘图',
+    layout: false,
+    component: '@/pages/Picture',
+  },
+  {
+    path: '/eat-what',
+    name: '吃啥',
+    layout: false,
+    component: '@/pages/EatWhat',
+  },
+  {
     path: '/pinyin',
     name: '拼音',
     layout: false,
