@@ -40,15 +40,15 @@ const App = () => {
       <div style={{ width: '100%' }}>
         <Header />
         <Row gutter={16} style={{ margin: 0 }}>
-          <Col span={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Col span={4} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <div className={styleCtx('left-menu-container')}>
               <Menu {...menuProps} />
             </div>
           </Col>
-          <Col span={12} className={styleCtx('body-container')}>
+          <Col span={16} className={styleCtx('body-container')}>
             <Outlet />
           </Col>
-          <Col span={6}></Col>
+          <Col span={4}></Col>
         </Row>
       </div>
     </ConfigProvider>

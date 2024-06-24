@@ -12,6 +12,12 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     layout: false,
     component: '@/pages/ULucky',
   },
+  // {
+  //   path: '/ads',
+  //   name: 'ads账号管理',
+  //   layout: false,
+  //   component: '@/pages/Ads',
+  // },
   {
     path: '/export-xlsx-lkb',
     name: 'lkb',
@@ -64,6 +70,13 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     icon: 'Icon-2',
     path: '/access',
     component: '@/pages/Access',
+  },
+  {
+    path: '/ads',
+    name: 'ads账号管理',
+    icon: 'Icon-5',
+    // layout: false,
+    component: '@/pages/Ads',
   },
   {
     name: ' CRUD 示例',
