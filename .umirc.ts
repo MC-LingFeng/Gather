@@ -13,6 +13,8 @@ const proxy = proxyList[PROXY!]?.proxy || {};
 export default defineConfig({
   esbuildMinifyIIFE: true,
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+    jsMinifier: 'terser',
+  cssMinifier: 'cssnano',
   antd: {
     style: 'css',
   },

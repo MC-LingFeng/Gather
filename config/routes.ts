@@ -13,6 +13,12 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     component: '@/pages/ULucky',
   },
   {
+    path: '/export-xlsx-lkb',
+    name: 'lkb',
+    layout: false,
+    component: '@/pages/ExportXlsxLkb',
+  },
+  {
     path: '/eat-what',
     name: '吃啥',
     layout: false,
