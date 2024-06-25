@@ -200,9 +200,7 @@ const Ads = () => {
             if (key.indexOf('time') !== -1 && values[key]){
               newObj[key] = values[key].format('YYYY-MM-DD')
             }
-            if (values[key]){
               newObj[key] = values[key]
-            }
           })
             queryRes.run(newObj)
           }}>
