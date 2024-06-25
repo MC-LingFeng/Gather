@@ -17,5 +17,6 @@ const getProxy = (target, matchPath, pathRewrite) => ({
 
 module.exports = {
   8090: getProxy('http://localhost:8090/', '/gather', '/gather'),
+  服务: getProxy('https://gatherinfo.icu/', '/gather', '/gather'),
   不使用: null,
 };

@@ -1,11 +1,17 @@
-import { Button, Col, Form, Input, Modal, Row, Select, Space, Table, message } from 'antd'
+import { Button, Typography , Col, DatePicker, Form, Input, Modal, Row, Select, Space, Table, message } from 'antd'
 import { ColumnType } from 'antd/es/table'
 import React from 'react'
 import { AdsType } from './type'
 import { useRequest } from '@umijs/max'
 import service from './service'
 import { useExport } from '@/hooks'
+import dayjs from 'dayjs'
+import { adsValues } from './config'
 
+
+const render =  (text) => {
+  return  <Typography.Paragraph copyable>{text}</Typography.Paragraph>
+}
 const Ads = () => {
   const [searchForm] = Form.useForm()
   const [editForm] = Form.useForm()
@@ -48,6 +54,7 @@ const Ads = () => {
       dataIndex: 'email',
       width: 150,
       className: 'true',
+      render,
     },
     
     {
@@ -55,17 +62,20 @@ const Ads = () => {
       dataIndex: 'psw',
       width: 150,
       className: 'true',
+      render,
     },
     {
       title: 'AdsId',
       dataIndex: 'ads_code',
       width: 120,
       className: 'true',
+      render,
     },
     {
       title: 'Google辅助邮箱地址',
       dataIndex: 'recovery_email',
       width: 150,
+      render,
     },
     {
       title: '账号状态',
@@ -90,26 +100,49 @@ const Ads = () => {
       title: 'Ads账号创建日期',
       dataIndex: 'create_time',
       width: 150,
+      render: (text) => {
+        if (!text) {
+          return text 
+        }else {
+          return dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+        }
+      }
     },
     {
       title: 'Ads账号修改日期',
       dataIndex: 'update_time',
       width: 150,
+      render: (text) => {
+        if (!text) {
+          return text 
+        }else {
+          return dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+        }
+      }
     },
     {
       title: 'Ads账号注销日期',
       dataIndex: 'logout_time',
       width: 150,
+      render: (text) => {
+        if (!text) {
+          return text 
+        }else {
+          return dayjs(text).format('YYYY-MM-DD HH:mm:ss')
+        }
+      }
     },
     {
       title: 'Ads绑定支付宝',
       dataIndex: 'alipay_id',
       width: 150,
+      render,
     },
     {
       title: 'Google手机号',
       dataIndex: 'phone',
       width: 150,
+      render,
     },
     
     {
@@ -158,12 +191,48 @@ const Ads = () => {
   
   return (
     <div>
+      <Typography.Paragraph copyable={{ text: adsValues }}>规避政策</Typography.Paragraph>
           <Form form={searchForm} layout="inline" onFinish={() => {
-            queryRes.run(searchForm.getFieldsValue())
+          const values = searchForm.getFieldsValue()
+          const keys = Object.keys(values)
+          const newObj: AdsType | any  = {}
+          keys.forEach((key) => {
+            if (key.indexOf('time') !== -1 && values[key]){
+              newObj[key] = values[key].format('YYYY-MM-DD')
+            }
+            if (values[key]){
+              newObj[key] = values[key]
+            }
+          })
+            queryRes.run(newObj)
           }}>
             <Row gutter={16}>
             {
               columns.filter(item => item.title !== '序号' && item.title !== '操作').map((item) => {
+                if (item.title === '账号状态') {
+                  return (
+                    <Col span={12} key={item.title as string} style={{ marginBottom: 5}}>
+                      <Form.Item name={item.dataIndex as string} label={item.title as string} 
+                    >
+                    <Select options={[
+                      { label: '正常', value: 0 },
+                      { label: '已撤销未回款', value: 1 },
+                      { label: '已撤销已回款', value: 2 },
+                    ]}/>
+                  </Form.Item>
+                  </Col>
+                  )
+                }
+                if ((item.title as string).indexOf('日期') !== -1) {
+                  return (
+                    <Col span={12} key={item.title as string} style={{ marginBottom: 5}}>
+                      <Form.Item name={item.dataIndex as string} label={item.title as string} 
+                    >
+                    <DatePicker />
+                  </Form.Item>
+                  </Col>
+                  )
+                }
                 return (
                   <Col span={12} key={item.title as string} style={{ marginBottom: 5}}>
                       <Form.Item name={item.dataIndex as string} label={item.title as string} >
