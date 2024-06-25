@@ -200,9 +200,17 @@ const Ads = () => {
             if (key.indexOf('time') !== -1 && values[key]){
               newObj[key] = values[key].format('YYYY-MM-DD')
             }
+            if (key === 'date' && values[key]){
+              newObj['startDate'] = values[key][0].format('YYYY-MM-DD')
+              newObj['endDate'] = values[key][1].format('YYYY-MM-DD')
+            }
               newObj[key] = values[key]
           })
-            queryRes.run(newObj)
+          
+            queryRes.run({
+              ...newObj,
+              date: undefined
+            })
           }}>
             <Row gutter={16}>
             {
@@ -223,12 +231,7 @@ const Ads = () => {
                 }
                 if ((item.title as string).indexOf('日期') !== -1) {
                   return (
-                    <Col span={12} key={item.title as string} style={{ marginBottom: 5}}>
-                      <Form.Item name={item.dataIndex as string} label={item.title as string} 
-                    >
-                    <DatePicker />
-                  </Form.Item>
-                  </Col>
+                    null
                   )
                 }
                 return (
@@ -240,6 +243,11 @@ const Ads = () => {
                 )
               })
             }
+             <Col span={12}  style={{ marginBottom: 5}}>
+                      <Form.Item name={'date'} label={'查询时段'} >
+                        <DatePicker.RangePicker />
+                  </Form.Item>
+                  </Col>
             </Row>
            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', marginTop: 5, marginBottom: 15}}>
             <div>
