@@ -1,4 +1,4 @@
-import { Button, Typography , Col, DatePicker, Form, Input, Modal, Row, Select, Space, Table, message } from 'antd'
+import { Button, Typography , Col, DatePicker, Form, Input, Modal, Row, Select, Space, Table, message, Tooltip } from 'antd'
 import { ColumnType } from 'antd/es/table'
 import React from 'react'
 import { AdsType } from './type'
@@ -9,7 +9,7 @@ import dayjs from 'dayjs'
 import { adsValues } from './config'
 
 
-const render =  (text) => {
+const render =  (text: any) => {
   return  <Typography.Paragraph copyable>{text}</Typography.Paragraph>
 }
 const Ads = () => {
@@ -33,6 +33,16 @@ const Ads = () => {
     }
   })
   const delRes = useRequest(service.deleteAds, {
+    manual: true,
+    onSuccess: (res) => {
+      if (res.code === 200){
+        queryRes.refresh();
+      } else {
+        message.error(res.msg)
+      }
+    }
+  })
+  const importRes = useRequest(service.textimport, {
     manual: true,
     onSuccess: (res) => {
       if (res.code === 200){
@@ -188,10 +198,36 @@ const Ads = () => {
       })
   }
 
+  const onCopyImport = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      console.log('Pasted content: ', text);
+      // const 
+      const arr = text.split('\n');
+      if (arr.length > 0){
+        const formatItems = arr.map((item) => {
+          const newItem = item.split('-')?.filter((item) => item !== '')
+          return {
+            email: newItem[0],
+            psw: newItem[1],
+            recovery_email: newItem[2],
+            ads_code: newItem[3],
+          }
+        })
+        importRes.run(formatItems as AdsType[])
+      }
+      
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err);
+    }
+  }
   
   return (
     <div>
       <Typography.Paragraph copyable={{ text: adsValues }}>规避政策</Typography.Paragraph>
+      <Tooltip title='格式为"email-password-recoveryEmail-adsCode"'>
+        <Button type='primary' onClick={onCopyImport} loading={importRes.loading}>copy导入</Button>
+      </Tooltip>
           <Form form={searchForm} layout="inline" onFinish={() => {
           const values = searchForm.getFieldsValue()
           const keys = Object.keys(values)

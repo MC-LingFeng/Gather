@@ -18,4 +18,15 @@ export default {
       data,
     });
   },
+
+  async textimport(data: AdsType[]) {
+    return request(`/gather/ads/import`, {
+      method: 'POST',
+      data,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+  },
+
 }
