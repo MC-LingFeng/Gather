@@ -78,6 +78,15 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     // layout: false,
     component: '@/pages/Ads',
   },
+  
+  {
+    path: '/google-msg',
+    name: 'google',
+    icon: 'Icon-5',
+    // layout: false,
+    component: '@/pages/GoogleMsg',
+  },
+
   {
     name: ' CRUD 示例',
     icon: 'Icon-3',

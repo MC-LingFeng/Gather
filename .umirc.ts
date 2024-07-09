@@ -18,6 +18,7 @@ export default defineConfig({
   antd: {
     style: 'css',
   },
+  https: {},
   hash: true,
   access: {},
   define: {
