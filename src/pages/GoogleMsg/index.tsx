@@ -15,7 +15,7 @@ const GoogleMsg = () => {
         Object.keys(people).forEach((item) => {
           params += `${item}=${people[item]}&`
         })
-        window.open(`https://localhost:8000/google.html`)
+        window.open(`${window.location.origin}/google.html`)
       }}>
         跳转
       </Button>
