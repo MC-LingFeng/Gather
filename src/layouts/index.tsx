@@ -5,6 +5,7 @@ import zhCN from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import Header from './Header';
+import Footer from './Footer';
 import { getAntdStyle } from './helper';
 import useMenu from './hooks/useMenu';
 import styles from './index.module.css';
@@ -50,7 +51,8 @@ const App = () => {
           </Col>
           <Col span={4}></Col>
         </Row>
-      </div>
+        <Footer />
+        </div>
     </ConfigProvider>
   );
 };

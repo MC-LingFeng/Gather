@@ -11,6 +11,6 @@
   background-color: var(--module-card-background);
   padding: 15px 30px 15px 30px !important;
   border-radius: var(--border-radius);
-  height: calc(100vh - 100px);
+  height: calc(100vh - 150px);
   overflow-y: auto;
 }
