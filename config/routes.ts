@@ -7,6 +7,12 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     redirect: '/home',
   },
   {
+    path: '/vacation',
+    name: '旅行',
+    layout: false,
+    component: '@/pages/Vacation',
+  },
+  {
     path: '/u-lucky',
     name: '算子',
     layout: false,
