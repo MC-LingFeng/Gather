@@ -64,12 +64,9 @@ async function getInitialState(): Promise<InitialState> {
     img.setAttribute('style', 'display: none');
     document.documentElement.appendChild(img);
   });
-  const computedStyle = document.documentElement.computedStyleMap();
-
-  computedStyle.forEach((value, key) => {
-    if (antdColorKey.includes(key)) {
-      defaultAntdColor[key] = value[0].toString();
-    }
+  const computedStyle = getComputedStyle(document.documentElement);
+  antdColorKey.forEach((key) => {
+    defaultAntdColor[key] = computedStyle.getPropertyValue(key).trim();
   });
   // window.get
   return {

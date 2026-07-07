@@ -14,12 +14,10 @@ const useChangeTheme = () => {
     e.stopPropagation();
     document.documentElement.setAttribute(`data-theme`, item);
 
-    const computedStyle = document.documentElement.computedStyleMap();
+    const computedStyle = getComputedStyle(document.documentElement);
     const defaultAntdColor: Record<string, string> = {};
-    computedStyle.forEach((value, key) => {
-      if (antdColorKey.includes(key)) {
-        defaultAntdColor[key] = value[0].toString();
-      }
+    antdColorKey.forEach((key) => {
+      defaultAntdColor[key] = computedStyle.getPropertyValue(key).trim();
     });
     setInitialState((res) => {
       return { ...res, defaultAntdColor } as InitialState;

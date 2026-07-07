@@ -1,58 +1,57 @@
-import { useCssModule, useListenScroll } from '@/hooks';
-import { Outlet, useModel } from '@umijs/max';
-import { Col, ConfigProvider, Menu, Row, theme } from 'antd';
+import { Outlet, useLocation, useModel } from '@umijs/max';
+import { ConfigProvider, Drawer, Menu, theme } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-import Header from './Header';
+import { useEffect, useState } from 'react';
 import Footer from './Footer';
+import Header from './Header';
 import { getAntdStyle } from './helper';
 import useMenu from './hooks/useMenu';
 import styles from './index.module.css';
 
 const App = () => {
   dayjs.locale('zh-cn');
+  const location = useLocation();
   const { initialState } = useModel('@@initialState');
-  const styleCtx = useCssModule(styles);
-
-  const menuProps = useMenu('inline');
   const { name } = useModel('global');
-  useListenScroll(styleCtx('left-menu-container'), styleCtx('menu-style'));
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuProps = useMenu('inline');
+
+  useEffect(() => setMobileMenuOpen(false), [location.pathname]);
+
+  const antdTheme = {
+    algorithm: name === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+    ...getAntdStyle(initialState?.defaultAntdColor as Record<string, string>),
+  };
 
   return (
-    <ConfigProvider
-      theme={
-        name === 'dark'
-          ? {
-              algorithm: theme.darkAlgorithm,
-              ...getAntdStyle(
-                initialState?.defaultAntdColor as Record<string, string>,
-              ),
-            }
-          : {
-              algorithm: theme.defaultAlgorithm,
-              ...getAntdStyle(
-                initialState?.defaultAntdColor as Record<string, string>,
-              ),
-            }
-      }
-      locale={zhCN}
-    >
-      <div style={{ width: '100%' }}>
-        <Header />
-        <Row gutter={16} style={{ margin: 0 }}>
-          <Col span={4} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <div className={styleCtx('left-menu-container')}>
-              <Menu {...menuProps} />
+    <ConfigProvider theme={antdTheme} locale={zhCN}>
+      <div className={styles['app-shell']}>
+        <Header onOpenMenu={() => setMobileMenuOpen(true)} />
+        <div className={styles.workspace}>
+          <aside className={styles.sidebar} aria-label="主导航">
+            <div className={styles['sidebar-inner']}>
+              <Menu {...menuProps} className={styles.menu} inlineCollapsed={false} />
             </div>
-          </Col>
-          <Col span={16} className={styleCtx('body-container')}>
-            <Outlet />
-          </Col>
-          <Col span={4}></Col>
-        </Row>
-        <Footer />
+          </aside>
+          <div className={styles['content-column']}>
+            <main className={styles['body-container']}>
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
         </div>
+        <Drawer
+          title={<span className={styles['drawer-brand']}>Gather 导航</span>}
+          placement="left"
+          width={288}
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+        >
+          <Menu {...menuProps} className={styles['drawer-menu']} />
+        </Drawer>
+      </div>
     </ConfigProvider>
   );
 };

@@ -1,16 +1,63 @@
-.menu-style {
-  position: fixed;
-  top: 15px;
-  width: 200px;
-}
-.left-menu-container {
-  width: 200px;
+.app-shell { min-height: 100vh; }
+
+.workspace {
+  display: flex;
+  gap: 24px;
+  width: min(100% - 48px, 1480px);
+  margin: 0 auto;
+  padding: 24px 0 0;
 }
 
-.body-container {
-  background-color: var(--module-card-background);
-  padding: 15px 30px 15px 30px !important;
+.sidebar { flex: 0 0 var(--sidebar-width); min-width: 0; }
+
+.sidebar-inner {
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  padding: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--border-radius);
-  height: calc(100vh - 150px);
-  overflow-y: auto;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(16px);
+}
+
+.menu { border: 0 !important; background: transparent !important; }
+
+.content-column { min-width: 0; flex: 1; }
+
+.body-container {
+  min-height: calc(100vh - var(--header-height) - 112px);
+  padding: 28px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(16px);
+}
+
+.drawer-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.drawer-menu { border: 0 !important; background: transparent !important; }
+
+@media (max-width: 1199px) {
+  .workspace { width: min(100% - 32px, 1120px); gap: 16px; }
+  .sidebar { flex-basis: 80px; }
+  .sidebar-inner { padding: 10px 8px; }
+  .sidebar-inner :global(.ant-menu-title-content),
+  .sidebar-inner :global(.ant-menu-submenu-arrow) { display: none; }
+  .sidebar-inner :global(.ant-menu-item),
+  .sidebar-inner :global(.ant-menu-submenu-title) { width: 48px; margin-inline: auto; padding-inline: 16px !important; }
+  .body-container { padding: 24px; }
+}
+
+@media (max-width: 767px) {
+  .workspace { width: 100%; padding: 12px; }
+  .sidebar { display: none; }
+  .body-container { min-height: calc(100vh - var(--header-height) - 88px); padding: 18px; border-radius: 14px; }
+}
+
+@media (max-width: 479px) {
+  .workspace { padding: 10px; }
+  .body-container { padding: 16px; }
 }

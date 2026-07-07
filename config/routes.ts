@@ -31,12 +31,6 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     component: '@/pages/ExportXlsxLkb',
   },
   {
-    path: '/eat-what',
-    name: '吃啥',
-    layout: false,
-    component: '@/pages/EatWhat',
-  },
-  {
     path: '/ai-picture',
     name: 'AI 绘图',
     layout: false,
@@ -94,7 +88,7 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
   },
 
   {
-    name: ' CRUD 示例',
+    name: 'CRUD 示例',
     icon: 'Icon-3',
     path: '/table',
     component: '@/pages/Table',

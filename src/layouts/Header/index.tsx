@@ -1,121 +1,86 @@
-import { useCssModule } from '@/hooks';
+import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import themeService from '@/services/theme';
-import { useModel } from '@umijs/max';
-import { Col, Drawer, Row, Tooltip } from 'antd';
-import { useState } from 'react';
+import { useLocation, useModel } from '@umijs/max';
+import { Button, Drawer, Tooltip } from 'antd';
+import { useMemo, useState } from 'react';
 import { theme } from '../helper';
 import { useChangeTheme } from '../hooks';
 import { Login, UserOperate } from './components';
 import styles from './index.module.css';
-import { Theme, User } from './svg';
 
-const Header = () => {
-  const styleCtx = useCssModule(styles);
+interface HeaderProps { onOpenMenu: () => void; }
+
+const themeNames: Record<string, string> = {
+  white: '晨光', black: '深夜', blue: '海蓝', pink: '樱粉', green: '森绿',
+};
+
+const Header = ({ onOpenMenu }: HeaderProps) => {
+  const location = useLocation();
   const username = window.sessionStorage.getItem('username');
-  const [open, setOpen] = useState<boolean>(false);
-  const [login, setLogin] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [login, setLogin] = useState(false);
   const changeTheme = useChangeTheme();
-  const { setThemeName } = useModel('theme');
+  const { setThemeName, themeName } = useModel('theme');
+  const { initialState } = useModel('@@initialState');
+
+  const pageTitle = useMemo(() => {
+    const findName = (routes: IRoute[]): string | undefined => {
+      for (const route of routes) {
+        if (route.path === location.pathname) return route.name;
+        const childName = route.routes ? findName(route.routes) : undefined;
+        if (childName) return childName;
+      }
+      return undefined;
+    };
+    return findName(initialState?.routes || []) || '工具工作台';
+  }, [initialState?.routes, location.pathname]);
 
   return (
-    <div className={styleCtx('header-container')}>
-      <Row gutter={12} style={{ height: '100%' }}>
-        <Col span={6} className={styleCtx('header-left')}>
-          Icon
-        </Col>
-        <Col span={12} className={styleCtx('header-center')}>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-        </Col>
-        <Col span={6} className={styleCtx('header-center')}>
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-            }}
-          >
-            {!username && (
-              <div
-                style={{ marginRight: 15 }}
-                onClick={() => setLogin(true)}
-                className={styleCtx('hands-true')}
-              >
-                <span>登录</span>丨<span>注册</span>
-              </div>
-            )}
-            {!!username && (
-              <Tooltip
-                arrow
-                title={UserOperate}
-                color={'var(--module-card-background)'}
-                placement="bottomRight"
-              >
-                <div style={{ marginRight: 15 }}>
-                  <User />
-                </div>
-              </Tooltip>
-            )}
-
-            <div
-              style={{ width: '60px', cursor: 'pointer' }}
-              onClick={() => setOpen(true)}
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <div className={styles.brandGroup}>
+          <Button className={styles.menuButton} type="text" icon={<MenuOutlined />} aria-label="打开导航" onClick={onOpenMenu} />
+          <div className={styles.logo} aria-hidden="true">G</div>
+          <div><div className={styles.brand}>Gather</div><div className={styles.tagline}>Creative workspace</div></div>
+        </div>
+        <div className={styles.pageTitle}>{pageTitle}</div>
+        <div className={styles.actions}>
+          {!username ? (
+            <Button type="text" className={styles.loginButton} onClick={() => setLogin(true)}>登录 / 注册</Button>
+          ) : (
+            <Tooltip arrow title={<UserOperate />} color="var(--surface-strong)" placement="bottomRight">
+              <Button type="text" className={styles.iconButton} icon={<UserOutlined />} aria-label="用户菜单" />
+            </Tooltip>
+          )}
+          <Tooltip title="切换主题">
+            <Button type="text" className={styles.themeButton} aria-label="切换主题" onClick={() => setOpen(true)}>
+              <span className={styles.themeDot} /><span className={styles.themeText}>{themeNames[themeName] || '主题'}</span>
+            </Button>
+          </Tooltip>
+        </div>
+      </div>
+      <Drawer title="选择界面主题" placement="right" width={340} onClose={() => setOpen(false)} open={open}>
+        <div className={styles.themeGrid}>
+          {Object.keys(theme).map((item) => (
+            <button
+              type="button"
+              key={`${item}-theme-button`}
+              className={`${styles.themeOption} ${themeName === item ? styles.themeOptionActive : ''}`}
+              onClick={(e) => {
+                setThemeName(item);
+                changeTheme(item, e);
+                themeService.setTheme({ value: item, id: 1 });
+                setOpen(false);
+              }}
             >
-              <Theme />
-              <Drawer
-                title="主题选择"
-                placement="right"
-                onClose={(e) => {
-                  e.stopPropagation();
-                  setOpen(false);
-                }}
-                open={open}
-              >
-                {Object.keys(theme).map((item) => {
-                  return (
-                    <div
-                      key={`${item}-theme-button`}
-                      style={{ display: 'flex', alignItems: 'center' }}
-                      onClick={(e) => {
-                        setThemeName(item);
-                        changeTheme(item, e);
-                        themeService.setTheme({
-                          value: item,
-                          id: 1,
-                        });
-                        setOpen(false);
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '30px',
-                          height: '30px',
-                          background: item,
-                          border: '1px solid #8c8c8c',
-                          marginRight: 10,
-                          marginBottom: 10,
-                        }}
-                      ></div>
-                      <div>{item} 主题</div>
-                    </div>
-                  );
-                })}
-              </Drawer>
-            </div>
-          </div>
-        </Col>
-      </Row>
-      <Login
-        modalProps={{
-          open: login,
-          onCancel: () => setLogin(false),
-        }}
-      />
-    </div>
+              <span className={`${styles.preview} ${styles[`preview-${item}`]}`} />
+              <span><strong>{themeNames[item]}</strong><small>{item} theme</small></span>
+            </button>
+          ))}
+        </div>
+      </Drawer>
+      <Login modalProps={{ open: login, onCancel: () => setLogin(false) }} />
+    </header>
   );
 };
 

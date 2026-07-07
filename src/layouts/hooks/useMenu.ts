@@ -1,6 +1,6 @@
 import { history, useLocation, useModel } from '@umijs/max';
 import { MenuProps } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { transformRoutesToMenu } from '../helper';
 
@@ -19,6 +19,10 @@ const useMenu = (mode: MenuProps['mode']): MenuProps => {
     `/${location.pathname.split('/')[1]}`,
   ]);
 
+  useEffect(() => {
+    setOpenKeys([`/${location.pathname.split('/')[1]}`]);
+  }, [location.pathname]);
+
   const handleOpenMenu = (keys: string[]) => {
     setOpenKeys([keys[keys.length - 1]]);
   };
@@ -29,10 +33,6 @@ const useMenu = (mode: MenuProps['mode']): MenuProps => {
     openKeys,
     onOpenChange: handleOpenMenu,
     selectedKeys: [history?.location.pathname || ''],
-    style: {
-      borderRight: 0,
-      borderRadius: 'var(--border-radius)',
-    },
     onClick: (e) => {
       history.push(e.key);
     },
