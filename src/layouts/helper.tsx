@@ -5,21 +5,23 @@ import { routeIcons } from '@/constants/tools';
 type MenuItem = Required<MenuProps>['items'][number];
 
 function transformRoutesToMenu(root: IRoute[]) {
-  const result: MenuItem[] = root.map<MenuItem>((rootItem) => {
-    return {
-      label: (
-        <Tooltip placement="right" title={rootItem.name}>
-          {rootItem.name}
-        </Tooltip>
-      ),
-      icon: rootItem.path ? routeIcons[rootItem.path] : undefined,
-      path: rootItem.path,
-      key: rootItem.path,
-      children: rootItem?.routes
-        ? transformRoutesToMenu(rootItem!.routes)
-        : null,
-    } as MenuItem;
-  });
+  const result: MenuItem[] = root
+    .filter((rootItem) => rootItem.show !== false)
+    .map<MenuItem>((rootItem) => {
+      return {
+        label: (
+          <Tooltip placement="right" title={rootItem.name}>
+            {rootItem.name}
+          </Tooltip>
+        ),
+        icon: rootItem.path ? routeIcons[rootItem.path] : undefined,
+        path: rootItem.path,
+        key: rootItem.path,
+        children: rootItem?.routes
+          ? transformRoutesToMenu(rootItem.routes)
+          : null,
+      } as MenuItem;
+    });
   return result;
 }
 

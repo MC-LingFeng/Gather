@@ -11,6 +11,8 @@
 /.umi-production
 /.umi-test
 /dist
+/public/download-assets
+/download-assets
 /.mfsu
 .swc
 /dist

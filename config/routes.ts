@@ -7,15 +7,22 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     redirect: '/home',
   },
   {
+    path: '/download',
+    name: '脚本工具',
+    icon: 'Icon-4',
+    show: false,
+    component: '@/pages/DownLoadItem',
+  },
+  {
     path: '/vacation',
     name: '旅行',
-    layout: false,
+    show: false,
     component: '@/pages/Vacation',
   },
   {
     path: '/u-lucky',
     name: '算子',
-    layout: false,
+    show: false,
     component: '@/pages/ULucky',
   },
   // {
@@ -27,50 +34,50 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
   {
     path: '/export-xlsx-lkb',
     name: 'lkb',
-    layout: false,
+    show: false,
     component: '@/pages/ExportXlsxLkb',
   },
   {
     path: '/ai-picture',
     name: 'AI 绘图',
-    layout: false,
+    show: false,
     component: '@/pages/Picture',
   },
   {
     path: '/eat-what',
     name: '吃啥',
-    layout: false,
+    show: false,
     component: '@/pages/EatWhat',
   },
   {
     path: '/pinyin',
     name: '拼音',
-    layout: false,
+    show: false,
     component: '@/pages/Pinyin',
   },
-  {
-    name: 'hooks',
-    path: '/hooks',
-    routes: [
-      {
-        name: '自定义hooks',
-        path: '/hooks/customize',
-        component: '@/pages/StudyHooks/Customize',
-      },
-    ],
-  },
+  // {
+  //   name: 'hooks',
+  //   path: '/hooks',
+  //   routes: [
+  //     {
+  //       name: '自定义hooks',
+  //       path: '/hooks/customize',
+  //       component: '@/pages/StudyHooks/Customize',
+  //     },
+  //   ],
+  // },
   {
     name: '首页',
     icon: 'Icon-1',
     path: '/home',
     component: '@/pages/Home',
   },
-  {
-    name: '权限演示',
-    icon: 'Icon-2',
-    path: '/access',
-    component: '@/pages/Access',
-  },
+  // {
+  //   name: '权限演示',
+  //   icon: 'Icon-2',
+  //   path: '/access',
+  //   component: '@/pages/Access',
+  // },
   {
     path: '/ads',
     name: 'ads账号管理',
@@ -87,18 +94,18 @@ const routes: Exclude<NonNullable<IRoute>, false> = [
     component: '@/pages/GoogleMsg',
   },
 
-  {
-    name: 'CRUD 示例',
-    icon: 'Icon-3',
-    path: '/table',
-    component: '@/pages/Table',
-  },
-  {
-    name: '换肤',
-    icon: 'Icon-4',
-    path: '/skin',
-    component: '@/pages/Skin',
-  },
+  // {
+  //   name: 'CRUD 示例',
+  //   icon: 'Icon-3',
+  //   path: '/table',
+  //   component: '@/pages/Table',
+  // },
+  // {
+  //   name: '换肤',
+  //   icon: 'Icon-4',
+  //   path: '/skin',
+  //   component: '@/pages/Skin',
+  // },
 ];
 
 export default routes;

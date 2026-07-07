@@ -34,10 +34,7 @@ export const toolItems: ToolItem[] = [
   { path: '/vacation', name: '旅行计划', description: '整理目的地、日期与旅行安排。', category: '生活助手', icon: <GlobalOutlined />, featured: false, order: 5 },
   { path: '/export-xlsx-lkb', name: '表格导出', description: '快捷生成并导出 Excel 文件。', category: '效率工具', icon: <FileExcelOutlined />, featured: false, order: 6 },
   { path: '/ads', name: 'ADS 账号管理', description: '集中管理账号及相关信息。', category: '效率工具', icon: <ToolOutlined />, featured: false, order: 7 },
-  { path: '/google-msg', name: 'Google 数据', description: '查看与处理 Google 数据内容。', category: '效率工具', icon: <GlobalOutlined />, featured: false, order: 8 },
-  { path: '/table', name: 'CRUD 示例', description: '表格数据的新增、编辑与查询示例。', category: '系统功能', icon: <TableOutlined />, featured: false, order: 9 },
-  { path: '/access', name: '权限演示', description: '查看不同权限下的页面与操作。', category: '系统功能', icon: <KeyOutlined />, featured: false, order: 10 },
-  { path: '/skin', name: '主题实验', description: '体验项目主题和界面色彩。', category: '系统功能', icon: <BgColorsOutlined />, featured: false, order: 11 },
+  { path: '/download', name: '脚本下载', description: '下载ads相关脚本', category: '效率工具', icon: <FileExcelOutlined />, featured: false, order: 11 },
 ].sort((a, b) => a.order - b.order);
 
 export const routeIcons: Record<string, ReactNode> = {
