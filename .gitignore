@@ -12,6 +12,7 @@
 /.umi-test
 /dist
 /public/download-assets
+/src/assets/download-assets
 /download-assets
 /.mfsu
 .swc

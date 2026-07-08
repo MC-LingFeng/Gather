@@ -14,31 +14,39 @@ const proxy = proxyList[PROXY!]?.proxy || {};
 
 const downloadManifest = Object.keys(downloadItems).reduce(
   (manifest, folder) => {
-    const sourceDir = path.resolve(__dirname, 'public', folder);
+    const sourceDir = path.resolve(
+      __dirname,
+      'public',
+      'download-assets',
+      folder,
+    );
     const files = fs.existsSync(sourceDir)
       ? fs.readdirSync(sourceDir).filter((name) =>
           fs.statSync(path.join(sourceDir, name)).isFile(),
         )
       : [];
-    manifest[folder] = files.map((name) => ({
-      name,
-      assetName: name === '.dev' ? 'environment.dev.txt' : name,
+    manifest[folder] = files.map((assetName) => ({
+      name: assetName === 'environment.dev.txt' ? '.dev' : assetName,
+      assetName,
     }));
-    files.forEach((name) => {
-      const assetName = name === '.dev' ? 'environment.dev.txt' : name;
-      const target = path.resolve(
+    return manifest;
+  },
+  {} as Record<string, Array<{ name: string; assetName: string }>>,
+);
+
+const downloadCopies = Object.entries(downloadManifest).flatMap(
+  ([folder, files]) =>
+    files.map(({ name, assetName }) => ({
+      from: path.resolve(
         __dirname,
         'public',
         'download-assets',
         folder,
         assetName,
-      );
-      fs.mkdirSync(path.dirname(target), { recursive: true });
-      fs.copyFileSync(path.join(sourceDir, name), target);
-    });
-    return manifest;
-  },
-  {} as Record<string, Array<{ name: string; assetName: string }>>,
+      ),
+      to: `static/download-assets/${folder}/${assetName}`,
+      noErrorOnMissing: false,
+    })),
 );
 
 export default defineConfig({
@@ -73,6 +81,15 @@ export default defineConfig({
     }),
   ],
   chainWebpack: (config) => {
+    if (downloadCopies.length > 0) {
+      config
+        .plugin('download-assets')
+        .use(
+          require('@umijs/bundler-webpack/compiled/copy-webpack-plugin'),
+          [{ patterns: downloadCopies }],
+        );
+    }
+
     config.module
       .rule('diy-loader')
       .test(/\.(tsx|jsx)$/)

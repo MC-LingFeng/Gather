@@ -42,7 +42,10 @@ const updateEnv = (content: string, values: Record<string, string>) =>
     .join('\n');
 
 const assetUrl = (folder: string, assetName: string) =>
-  new URL(`download-assets/${folder}/${assetName}`, document.baseURI).toString();
+  new URL(
+    `static/download-assets/${folder}/${encodeURIComponent(assetName)}`,
+    document.baseURI,
+  ).toString();
 
 const assertAssetResponse = async (response: Response, fileName: string) => {
   if (!response.ok) throw new Error(`${fileName}: HTTP ${response.status}`);
